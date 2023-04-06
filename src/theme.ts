@@ -9,21 +9,30 @@ export const roboto = Roboto({
   fallback: ['Helvetica', 'Arial', 'sans-serif'],
 });
 
-// Create a theme instance.
+// declare module '@mui/material/styles' {
+//   interface Palette {
+//     primaryLight: Palette['primary'];
+//   }
+//   interface PaletteOptions {
+//     primaryLight: PaletteOptions['primary'];
+//   }
+// }
+
 const theme = createTheme({
   palette: {
     primary: {
       main: '#2563EB',
+      light: '#3B73ED', // generate a lighter shade
     },
     secondary: {
-      main: '#ffffff',
+      main: '#FFFFFF',
     },
     error: {
       main: red.A400,
     },
-    text: {
-      primary: '#ffffff', // set text color to white
-    },
+    // primaryLight: {
+    //   main: '#25632B',
+    // },
   },
   typography: {
     fontFamily: roboto.style.fontFamily,

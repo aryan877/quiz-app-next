@@ -20,21 +20,20 @@ import { useTheme } from '@mui/material/styles';
 
 type QuizCardProps = {
   quiz: Record<string, any>;
+  primary: string;
 };
 
-function QuizCard({ quiz }: QuizCardProps) {
+function QuizCard({ quiz, primary }: QuizCardProps) {
   const theme = useTheme();
   return (
     <Card
       sx={{
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.secondary.main,
+        backgroundColor: primary,
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         padding: '1rem',
-        boxShadow: 'none',
       }}
     >
       <Box sx={{ display: 'flex', width: '100%' }}>
@@ -48,10 +47,10 @@ function QuizCard({ quiz }: QuizCardProps) {
             px: 1,
           }}
         >
-          <IconButton sx={{ color: theme.palette.primary.main }}>
+          <IconButton sx={{ color: primary }}>
             <Typography
               variant="button"
-              sx={{ color: theme.palette.primary.main, fontWeight: 'bold' }}
+              sx={{ color: primary, fontWeight: 'bold' }}
             >
               Edit
             </Typography>
@@ -62,11 +61,11 @@ function QuizCard({ quiz }: QuizCardProps) {
             sx={{
               height: '100%',
               mx: 1,
-              bgcolor: theme.palette.primary.main,
+              bgcolor: primary,
             }}
           />
           <Tooltip title="Delete">
-            <IconButton sx={{ color: theme.palette.primary.main }}>
+            <IconButton sx={{ color: primary }}>
               <Delete />
             </IconButton>
           </Tooltip>
@@ -81,7 +80,7 @@ function QuizCard({ quiz }: QuizCardProps) {
           marginTop: '1rem',
         }}
       >
-        <Typography variant="h6" component="h3" align="center">
+        <Typography variant="h6" component="h3" align="center" color="white">
           {quiz.name}
         </Typography>
       </Box>

@@ -1,3 +1,4 @@
+import CreateQuizModal from '@/components/CreateQuizModal';
 import GlobalNotification from '@/components/GlobalNotification';
 import Navbar from '@/components/Navbar';
 import QuizCard from '@/components/QuizCard';
@@ -7,19 +8,14 @@ import {
   AppBar,
   Box,
   Button,
-  Card,
-  CardActions,
-  CardContent,
   Container,
   Divider,
   Grid,
-  IconButton,
-  Toolbar,
   Typography,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
-import React from 'react';
+import React, { useState } from 'react';
 
 const quizzes = [
   { id: 1, name: 'Quiz 1' },
@@ -32,6 +28,12 @@ const quizzes = [
 
 const Index = () => {
   const theme = useTheme();
+
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
 
   return (
     <>
@@ -57,34 +59,33 @@ const Index = () => {
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            style={{ marginRight: '1rem', boxShadow: 'none' }}
+            style={{ marginRight: '1rem' }}
+            onClick={() => setOpenModal(true)}
           >
             Create Quiz
           </Button>
-          <Button
-            variant="contained"
-            startIcon={<QuizIcon />}
-            style={{ boxShadow: 'none' }}
-          >
+          <CreateQuizModal handleClose={handleClose} openModal={openModal} />
+          <Button variant="contained" startIcon={<QuizIcon />}>
             Attempt Quiz
           </Button>
         </div>
 
-        <div style={{ marginTop: '20px' }}>
+        <div style={{ marginTop: '20px', marginBottom: '100px' }}>
           <Typography
             variant="h4"
             component="h2"
             align="center"
             gutterBottom
             fontWeight="bold"
+            mb={5}
           >
-            My Quizzes
+            Quiz Collection
           </Typography>
 
           <Grid container spacing={3} style={{ justifyContent: 'center' }}>
-            {quizzes.map((quiz) => (
+            {quizzes.map((quiz, index) => (
               <Grid key={quiz.id} item xs={12} sm={6} md={4}>
-                <QuizCard quiz={quiz}></QuizCard>
+                <QuizCard quiz={quiz} primary={theme.palette.primary.main} />
               </Grid>
             ))}
           </Grid>
