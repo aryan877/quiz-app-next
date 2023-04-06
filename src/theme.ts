@@ -1,4 +1,4 @@
-import { red } from '@mui/material/colors';
+import { red } from '@mui/material/colors'; // added import statement
 import { createTheme } from '@mui/material/styles';
 import { Roboto } from '@next/font/google';
 
@@ -8,17 +8,21 @@ export const roboto = Roboto({
   display: 'swap',
   fallback: ['Helvetica', 'Arial', 'sans-serif'],
 });
+
 // Create a theme instance.
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#556cd6',
+      main: '#2563EB',
     },
     secondary: {
-      main: '#19857b',
+      main: '#ffffff',
     },
     error: {
       main: red.A400,
+    },
+    text: {
+      primary: '#ffffff', // set text color to white
     },
   },
   typography: {

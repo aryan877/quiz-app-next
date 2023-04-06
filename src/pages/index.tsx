@@ -1,9 +1,20 @@
+import GlobalNotification from '@/components/GlobalNotification';
+import Navbar from '@/components/Navbar';
+import QuizCard from '@/components/QuizCard';
+import AddIcon from '@mui/icons-material/Add';
+import QuizIcon from '@mui/icons-material/Quiz';
 import {
+  AppBar,
+  Box,
   Button,
   Card,
+  CardActions,
   CardContent,
   Container,
+  Divider,
   Grid,
+  IconButton,
+  Toolbar,
   Typography,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
@@ -23,62 +34,63 @@ const Index = () => {
   const theme = useTheme();
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        pt: '2rem',
-      }}
-    >
-      <div
-        style={{
+    <>
+      <GlobalNotification />
+      <Navbar />
+      <Container
+        maxWidth="md"
+        sx={{
           display: 'flex',
-          justifyContent: 'center',
+          flexDirection: 'column',
           alignItems: 'center',
-          marginBottom: '2rem',
+          pt: '2rem',
         }}
       >
-        <Button variant="contained" style={{ marginRight: '1rem' }}>
-          Create Quiz
-        </Button>
-        <Button variant="contained">Take Quiz</Button>
-      </div>
-      <Typography variant="h4" component="h2" align="center" gutterBottom>
-        My Quizzes
-      </Typography>
-      <Grid container spacing={3} style={{ justifyContent: 'center' }}>
-        {quizzes.map((quiz) => (
-          <Grid key={quiz.id} item xs={12} sm={6} md={4}>
-            <Card
-              sx={{
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.secondary.main,
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '2rem',
-                ':hover': { backgroundColor: grey[900] },
-              }}
-            >
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  component="h3"
-                  align="center"
-                  style={{ marginBottom: '1rem' }}
-                >
-                  {quiz.name}
-                </Typography>
-              </CardContent>
-            </Card>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: '2rem',
+          }}
+        >
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            style={{ marginRight: '1rem', boxShadow: 'none' }}
+          >
+            Create Quiz
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<QuizIcon />}
+            style={{ boxShadow: 'none' }}
+          >
+            Attempt Quiz
+          </Button>
+        </div>
+
+        <div style={{ marginTop: '20px' }}>
+          <Typography
+            variant="h4"
+            component="h2"
+            align="center"
+            gutterBottom
+            fontWeight="bold"
+          >
+            My Quizzes
+          </Typography>
+
+          <Grid container spacing={3} style={{ justifyContent: 'center' }}>
+            {quizzes.map((quiz) => (
+              <Grid key={quiz.id} item xs={12} sm={6} md={4}>
+                <QuizCard quiz={quiz}></QuizCard>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-    </Container>
+        </div>
+      </Container>
+    </>
   );
 };
 
