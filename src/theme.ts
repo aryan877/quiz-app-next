@@ -9,6 +9,12 @@ export const roboto = Roboto({
   fallback: ['Helvetica', 'Arial', 'sans-serif'],
 });
 
+import { darken, lighten } from 'polished';
+
+const mainColor = '#f65868';
+const darkerColor = darken(0.2, mainColor);
+// #5b3996
+
 // declare module '@mui/material/styles' {
 //   interface Palette {
 //     primaryLight: Palette['primary'];
@@ -21,8 +27,8 @@ export const roboto = Roboto({
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2563EB',
-      light: '#3B73ED', // generate a lighter shade
+      main: mainColor,
+      dark: darkerColor,
     },
     secondary: {
       main: '#FFFFFF',

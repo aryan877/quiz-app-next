@@ -1,6 +1,8 @@
-
+import GlobalNotification from '@/components/GlobalNotification';
+import Navbar from '@/components/Navbar';
 import '@/styles/globals.css';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import { Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { AppProps } from 'next/app';
@@ -21,16 +23,25 @@ export default function MyApp(props: MyAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <meta
-          name='viewport'
-          content='initial-scale=1, width=device-width'
-        />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon.
         remove the margins of all browsers and apply the material design background color */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <GlobalNotification />
+        <Navbar />
+        <Container
+          maxWidth="md"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            pt: '2rem',
+          }}
+        >
+          <Component {...pageProps} />
+        </Container>
       </ThemeProvider>
     </CacheProvider>
   );

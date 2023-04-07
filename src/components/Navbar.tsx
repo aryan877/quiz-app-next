@@ -1,12 +1,15 @@
 import { AppBar, Toolbar, Typography } from '@mui/material';
+import Link from 'next/link';
 
 const Navbar = () => {
   return (
-    <AppBar position="static" elevation={0}>
+    <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Goreeva
-        </Typography>
+        <Link href="/">
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Goreeva
+          </Typography>
+        </Link>
       </Toolbar>
     </AppBar>
   );
