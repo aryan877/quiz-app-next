@@ -36,7 +36,7 @@ const Index = () => {
   };
 
   return (
-    <>
+    <Box sx={{ mt: '4rem' }}>
       {/* buttons to create and take quiz */}
       <div
         style={{
@@ -68,7 +68,7 @@ const Index = () => {
           align="left"
           gutterBottom
           fontWeight="bold"
-          mb={4}
+          mb={2}
         >
           All Quizzes ({quizzes.length})
         </Typography>
@@ -81,7 +81,7 @@ const Index = () => {
           ))}
         </Grid>
       </div>
-    </>
+    </Box>
   );
 };
 

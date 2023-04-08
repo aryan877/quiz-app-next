@@ -101,7 +101,7 @@ function QuizCard({ quiz, primary }: QuizCardProps) {
         </Menu>
       </Box>
 
-      <Link href="/editquiz">
+      <Link href="/editquiz/1">
         <Card className="quiz-card">
           <Box
             sx={{

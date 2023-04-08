@@ -8,8 +8,8 @@ export interface OptionType {
 
 export interface QuestionType {
   id: number;
-  title: string;
   prompt: string;
+  points: number;
   options: OptionType[];
 }
 
@@ -32,8 +32,8 @@ const initialState: QuizState = {
     questions: [
       {
         id: 1,
-        title: 'What is 1+1?',
-        prompt: 'Please select the correct answer',
+        prompt: 'What is 1+1?',
+        points: 10,
         options: [
           { id: 1, title: '1', isAnswer: false },
           { id: 2, title: '2', isAnswer: true },
@@ -43,8 +43,8 @@ const initialState: QuizState = {
       },
       {
         id: 2,
-        title: 'What is the capital of France?',
-        prompt: 'Please select the correct answer',
+        prompt: 'What is the capital of France?',
+        points: 20,
         options: [
           { id: 1, title: 'New York', isAnswer: false },
           { id: 2, title: 'Paris', isAnswer: true },
@@ -68,13 +68,73 @@ const quizSlice = createSlice({
         state.quiz.questions.push(action.payload);
       }
     },
-    updateQuestion(state, action: PayloadAction<QuestionType>) {
+    updateQuestionPrompt(
+      state,
+      action: PayloadAction<{ questionId: number; prompt: string }>
+    ) {
       if (state.quiz) {
-        const index = state.quiz.questions.findIndex(
-          (q) => q.id === action.payload.id
+        const question = state.quiz.questions.find(
+          (q) => q.id === action.payload.questionId
         );
-        if (index !== -1) {
-          state.quiz.questions[index] = action.payload;
+        if (question) {
+          question.prompt = action.payload.prompt;
+        }
+      }
+    },
+    updateQuestionPoints(
+      state,
+      action: PayloadAction<{ questionId: number; points: number }>
+    ) {
+      if (state.quiz) {
+        const question = state.quiz.questions.find(
+          (q) => q.id === action.payload.questionId
+        );
+        if (question) {
+          question.points = action.payload.points;
+        }
+      }
+    },
+    updateOptionTitle(
+      state,
+      action: PayloadAction<{
+        questionId: number;
+        optionId: number;
+        title: string;
+      }>
+    ) {
+      if (state.quiz) {
+        const question = state.quiz.questions.find(
+          (q) => q.id === action.payload.questionId
+        );
+        if (question) {
+          const option = question.options.find(
+            (o) => o.id === action.payload.optionId
+          );
+          if (option) {
+            option.title = action.payload.title;
+          }
+        }
+      }
+    },
+    updateOptionIsAnswer(
+      state,
+      action: PayloadAction<{
+        questionId: number;
+        optionId: number;
+        isAnswer: boolean;
+      }>
+    ) {
+      if (state.quiz) {
+        const question = state.quiz.questions.find(
+          (q) => q.id === action.payload.questionId
+        );
+        if (question) {
+          const option = question.options.find(
+            (o) => o.id === action.payload.optionId
+          );
+          if (option) {
+            option.isAnswer = action.payload.isAnswer;
+          }
         }
       }
     },
@@ -95,28 +155,6 @@ const quizSlice = createSlice({
         );
         if (question) {
           question.options.push(action.payload.option);
-        }
-      }
-    },
-    updateOption(
-      state,
-      action: PayloadAction<{
-        questionId: number;
-        optionId: number;
-        option: OptionType;
-      }>
-    ) {
-      if (state.quiz) {
-        const question = state.quiz.questions.find(
-          (q) => q.id === action.payload.questionId
-        );
-        if (question) {
-          const optionIndex = question.options.findIndex(
-            (o) => o.id === action.payload.optionId
-          );
-          if (optionIndex !== -1) {
-            question.options[optionIndex] = action.payload.option;
-          }
         }
       }
     },
@@ -141,10 +179,12 @@ const quizSlice = createSlice({
 export const {
   setQuiz,
   addQuestion,
-  updateQuestion,
+  updateQuestionPrompt,
+  updateQuestionPoints,
+  updateOptionTitle,
+  updateOptionIsAnswer,
   removeQuestion,
   addOption,
-  updateOption,
   removeOption,
 } = quizSlice.actions;
 

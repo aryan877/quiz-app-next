@@ -6,6 +6,7 @@ interface EditableTextProps {
   setTextState: React.Dispatch<React.SetStateAction<string>>;
   textState: string;
   fontSize: string;
+  bold?: boolean;
 }
 
 function EditableText({
@@ -13,6 +14,7 @@ function EditableText({
   setTextState,
   textState,
   fontSize,
+  bold,
 }: EditableTextProps) {
   const [initialTextState, setInitialTextState] = useState(defaultText);
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +53,7 @@ function EditableText({
         },
         '& .MuiInputBase-root': {
           fontSize: fontSize,
-          fontWeight: 'bold',
+          fontWeight: bold ? 'bold' : '',
           padding: 0,
           '&:focus': {
             outline: 'none',

@@ -1,9 +1,10 @@
+import { OptionType } from '@/store/reducers/quizFormSlice';
 import { Close } from '@mui/icons-material';
 import { Checkbox, Grid, IconButton, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import EditableText from './EditableText';
 
-function Option({ option }: { option: any }) {
+function Option({ option }: { option: OptionType }) {
   const [optionTitle, setOptionTitle] = useState(option.title);
   const [checked, setChecked] = useState(false);
 
@@ -23,11 +24,11 @@ function Option({ option }: { option: any }) {
       </Grid>
       <Grid item sx={{ flexGrow: 1 }}>
         <EditableText
-          key={option._id}
+          key={option.id}
           textState={optionTitle}
           setTextState={setOptionTitle}
           defaultText={optionTitle}
-          fontSize={'20px'}
+          fontSize={'16px'}
         />
       </Grid>
       <Grid item>

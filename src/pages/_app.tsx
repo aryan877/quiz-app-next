@@ -7,12 +7,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import createEmotionCache from '../createEmotionCache';
 import store from '../store';
 import theme from '../theme';
-
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -22,6 +23,22 @@ interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
+  const router = useRouter();
+  const [bgColor, setBgColor] = useState('#fff');
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      const path = router.pathname;
+      if (path.startsWith('/editquiz/')) {
+        document.body.style.backgroundColor = '#f0f0f0';
+      } else if (path === '/') {
+        document.body.style.backgroundColor = '#feeef0';
+      }
+    };
+    handleRouteChange(); // initial route
+  }, [router.pathname]);
+
   return (
     <Provider store={store}>
       <CacheProvider value={emotionCache}>
@@ -35,13 +52,14 @@ export default function MyApp(props: MyAppProps) {
           <CssBaseline />
           <GlobalNotification />
           <Navbar />
+
           <Container
             maxWidth="md"
             sx={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              pt: '8rem',
+              pt: '4rem',
             }}
           >
             <Component {...pageProps} />
