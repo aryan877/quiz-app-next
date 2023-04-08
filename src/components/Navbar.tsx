@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Navbar = () => {
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Toolbar>
         <Link href="/">
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
