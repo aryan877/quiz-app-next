@@ -1,58 +1,70 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Timestamp } from 'firebase/firestore';
 
 export interface OptionType {
-  id: number;
+  id: string;
   title: string;
   isAnswer: boolean;
 }
 
 export interface QuestionType {
-  id: number;
+  id: string;
   prompt: string;
   points: number;
   options: OptionType[];
 }
 
 export interface QuizType {
-  id: number;
+  id: string;
   title: string;
   description: string;
   questions: QuestionType[];
+  createdAt?: Timestamp;
 }
 
 interface QuizState {
   quiz?: QuizType;
 }
 
+import { v4 as uuidv4 } from 'uuid';
+// const initialState: QuizState = {
+//   quiz: {
+//     id: 1,
+//     title: 'My QuizType',
+//     description: 'This is a sample quiz',
+//     questions: [
+//       {
+//         id: 1,
+//         prompt: 'What is 1+1?',
+//         points: 10,
+//         options: [
+//           { id: 1, title: '1', isAnswer: false },
+//           { id: 2, title: '2', isAnswer: true },
+//           { id: 3, title: '3', isAnswer: false },
+//           { id: 4, title: '4', isAnswer: false },
+//         ],
+//       },
+//       {
+//         id: 2,
+//         prompt: 'What is the capital of France?',
+//         points: 20,
+//         options: [
+//           { id: 1, title: 'New York', isAnswer: false },
+//           { id: 2, title: 'Paris', isAnswer: true },
+//           { id: 3, title: 'London', isAnswer: false },
+//           { id: 4, title: 'Madrid', isAnswer: false },
+//         ],
+//       },
+//     ],
+//   },
+// };
+
 const initialState: QuizState = {
   quiz: {
-    id: 1,
-    title: 'My QuizType',
-    description: 'This is a sample quiz',
-    questions: [
-      {
-        id: 1,
-        prompt: 'What is 1+1?',
-        points: 10,
-        options: [
-          { id: 1, title: '1', isAnswer: false },
-          { id: 2, title: '2', isAnswer: true },
-          { id: 3, title: '3', isAnswer: false },
-          { id: 4, title: '4', isAnswer: false },
-        ],
-      },
-      {
-        id: 2,
-        prompt: 'What is the capital of France?',
-        points: 20,
-        options: [
-          { id: 1, title: 'New York', isAnswer: false },
-          { id: 2, title: 'Paris', isAnswer: true },
-          { id: 3, title: 'London', isAnswer: false },
-          { id: 4, title: 'Madrid', isAnswer: false },
-        ],
-      },
-    ],
+    id: uuidv4(),
+    title: 'Untitled Quiz',
+    description: 'enter description',
+    questions: [],
   },
 };
 
@@ -70,7 +82,7 @@ const quizSlice = createSlice({
     },
     updateQuestionPrompt(
       state,
-      action: PayloadAction<{ questionId: number; prompt: string }>
+      action: PayloadAction<{ questionId: string; prompt: string }>
     ) {
       if (state.quiz) {
         const question = state.quiz.questions.find(
@@ -83,7 +95,7 @@ const quizSlice = createSlice({
     },
     updateQuestionPoints(
       state,
-      action: PayloadAction<{ questionId: number; points: number }>
+      action: PayloadAction<{ questionId: string; points: number }>
     ) {
       if (state.quiz) {
         const question = state.quiz.questions.find(
@@ -97,8 +109,8 @@ const quizSlice = createSlice({
     updateOptionTitle(
       state,
       action: PayloadAction<{
-        questionId: number;
-        optionId: number;
+        questionId: string;
+        optionId: string;
         title: string;
       }>
     ) {
@@ -119,8 +131,8 @@ const quizSlice = createSlice({
     updateOptionIsAnswer(
       state,
       action: PayloadAction<{
-        questionId: number;
-        optionId: number;
+        questionId: string;
+        optionId: string;
         isAnswer: boolean;
       }>
     ) {
@@ -138,7 +150,7 @@ const quizSlice = createSlice({
         }
       }
     },
-    removeQuestion(state, action: PayloadAction<number>) {
+    removeQuestion(state, action: PayloadAction<string>) {
       if (state.quiz) {
         state.quiz.questions = state.quiz.questions.filter(
           (q) => q.id !== action.payload
@@ -147,7 +159,7 @@ const quizSlice = createSlice({
     },
     addOption(
       state,
-      action: PayloadAction<{ questionId: number; option: OptionType }>
+      action: PayloadAction<{ questionId: string; option: OptionType }>
     ) {
       if (state.quiz) {
         const question = state.quiz.questions.find(
@@ -160,7 +172,7 @@ const quizSlice = createSlice({
     },
     removeOption(
       state,
-      action: PayloadAction<{ questionId: number; optionId: number }>
+      action: PayloadAction<{ questionId: string; optionId: string }>
     ) {
       if (state.quiz) {
         const question = state.quiz.questions.find(

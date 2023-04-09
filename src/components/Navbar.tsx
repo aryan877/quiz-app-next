@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Navbar = () => {
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" sx={{ zIndex: '99999' }}>
       <Toolbar>
         <Box
           sx={{

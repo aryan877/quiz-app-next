@@ -9,36 +9,18 @@ export const roboto = Roboto({
   fallback: ['Helvetica', 'Arial', 'sans-serif'],
 });
 
-import { darken, lighten } from 'polished';
-
-const mainColor = '#f65868';
-const darkerColor = darken(0.2, mainColor);
-// #5b3996
-
-// declare module '@mui/material/styles' {
-//   interface Palette {
-//     primaryLight: Palette['primary'];
-//   }
-//   interface PaletteOptions {
-//     primaryLight: PaletteOptions['primary'];
-//   }
-// }
-
 const theme = createTheme({
   palette: {
     primary: {
-      main: mainColor,
-      dark: darkerColor,
+      main: '#2E86C1',
+      dark: '#000',
     },
     secondary: {
-      main: '#FFFFFF',
+      main: '#FFF',
     },
     error: {
       main: red.A400,
     },
-    // primaryLight: {
-    //   main: '#25632B',
-    // },
   },
   typography: {
     fontFamily: roboto.style.fontFamily,

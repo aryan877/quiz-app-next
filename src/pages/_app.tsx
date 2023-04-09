@@ -8,6 +8,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import NextNProgress from 'nextjs-progressbar';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
@@ -33,7 +34,7 @@ export default function MyApp(props: MyAppProps) {
       if (path.startsWith('/editquiz/')) {
         document.body.style.backgroundColor = '#f0f0f0';
       } else if (path === '/') {
-        document.body.style.backgroundColor = '#feeef0';
+        document.body.style.backgroundColor = '#d3e7f5';
       }
     };
     handleRouteChange(); // initial route
@@ -62,6 +63,7 @@ export default function MyApp(props: MyAppProps) {
               pt: '4rem',
             }}
           >
+            <NextNProgress color="red" />
             <Component {...pageProps} />
           </Container>
         </ThemeProvider>

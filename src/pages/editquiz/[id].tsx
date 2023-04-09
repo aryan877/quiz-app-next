@@ -30,9 +30,9 @@ function EditQuiz() {
 
   // const [questions, setQuestions] = useState<QuestionType[]>([]);
   // const dispatch = useDispatch();
-  const questions = useSelector(
-    (state: RootState) => state.quizform.quiz?.questions
-  );
+  // const questions = useSelector(
+  //   (state: RootState) => state.quizform.quiz?.questions
+  // );
 
   const hasMounted = useRef(false);
 
@@ -45,13 +45,13 @@ function EditQuiz() {
 
   const addQuestion = () => {
     const newQuestion = {
-      _id: uuidv4(),
+      id: uuidv4(),
       title: 'New Question',
       prompt: '',
       options: [
-        { _id: uuidv4(), title: 'Option 1' },
-        { _id: uuidv4(), title: 'Option 2' },
-        { _id: uuidv4(), title: 'Option 3' },
+        { id: uuidv4(), title: 'Option 1' },
+        { id: uuidv4(), title: 'Option 2' },
+        { id: uuidv4(), title: 'Option 3' },
       ],
     };
 
@@ -119,10 +119,10 @@ function EditQuiz() {
         ></Box> */}
       </Card>
 
-      {questions &&
+      {/* {questions &&
         questions.map((question: QuestionType, index: number) => (
           <Question key={question.id} index={index + 1} question={question} />
-        ))}
+        ))} */}
 
       <Tooltip title="Add question">
         <IconButton onClick={addQuestion}>

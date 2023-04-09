@@ -1,24 +1,62 @@
+import { QuizType } from '@/store/reducers/quizFormSlice';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
-import React, { FC, useState } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import { addDoc, collection, getDoc, Timestamp } from 'firebase/firestore';
 
+import { useRouter } from 'next/router';
+import React, { FC, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import db from '../../firebase/firebase';
 type CreateQuizModalProps = {
-  handleClose: () => void;
   openModal: boolean;
+  setOpenModal: any;
 };
 
 // Create Quiz Modal
 const CreateQuizModal: FC<CreateQuizModalProps> = ({
-  handleClose,
   openModal,
+  setOpenModal,
 }) => {
-  const theme = useTheme();
-
   const [quizName, setQuizName] = useState<string>('');
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const router = useRouter();
+  // router.push(`/edit/${docRef.id}`);
 
   const handleQuizNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuizName(event.target.value);
+  };
+
+  const quiz: QuizType = {
+    id: uuidv4(),
+    title: quizName,
+    description: 'enter description',
+    questions: [],
+    createdAt: Timestamp.fromDate(new Date()),
+  };
+
+  const handleClose = async () => {
+    // Initialize quizzes collection
+    const quizzesCollection = collection(db, 'quizzes');
+    // Add quiz data to quizzes collection
+    try {
+      const docRef = await addDoc(quizzesCollection, quiz);
+      // Get the newly added document from the database to retrieve the id field
+      const docSnapshot = await getDoc(docRef);
+      const quizData = docSnapshot.data();
+      const quizId = quizData?.id;
+      console.log('Quiz added with ID: ', quizId);
+      setIsSuccess(true);
+      setTimeout(() => {
+        setIsSuccess(false);
+        setOpenModal(false);
+        router.push(`/editquiz/${quizId}`);
+      }, 2000);
+    } catch (error) {
+      console.error('Error adding quiz: ', error);
+    }
   };
 
   const createButtonDisabled = quizName.length < 1;
@@ -26,7 +64,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
   return (
     <Modal
       open={openModal}
-      onClose={handleClose}
+      onClose={() => setOpenModal(false)}
       aria-labelledby="create-quiz-modal-title"
       aria-describedby="create-quiz-modal-description"
     >
@@ -40,6 +78,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
           bgcolor: 'background.paper',
           borderRadius: '4px',
           p: 4,
+          zIndex: 9999, // Or any other high value
         }}
       >
         <Typography
@@ -63,7 +102,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button
-            onClick={handleClose}
+            onClick={() => setOpenModal(false)}
             color="primary"
             variant="contained"
             sx={{ ml: 1 }}
@@ -80,6 +119,11 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
             Create
           </Button>
         </Box>
+        {isSuccess && (
+          <Box sx={{ mt: 2 }}>
+            <Typography color="green">Quiz successfully created!</Typography>
+          </Box>
+        )}
       </Box>
     </Modal>
   );
