@@ -67,6 +67,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
       onClose={() => setOpenModal(false)}
       aria-labelledby="create-quiz-modal-title"
       aria-describedby="create-quiz-modal-description"
+      disableScrollLock={true}
     >
       <Box
         sx={{

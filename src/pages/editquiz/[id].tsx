@@ -43,23 +43,23 @@ function EditQuiz() {
     }
   }, []);
 
-  const addQuestion = () => {
-    const newQuestion = {
-      id: uuidv4(),
-      title: 'New Question',
-      prompt: '',
-      options: [
-        { id: uuidv4(), title: 'Option 1' },
-        { id: uuidv4(), title: 'Option 2' },
-        { id: uuidv4(), title: 'Option 3' },
-      ],
-    };
+  // const addQuestion = () => {
+  //   const newQuestion = {
+  //     id: uuidv4(),
+  //     title: 'New Question',
+  //     prompt: '',
+  //     options: [
+  //       { id: uuidv4(), title: 'Option 1' },
+  //       { id: uuidv4(), title: 'Option 2' },
+  //       { id: uuidv4(), title: 'Option 3' },
+  //     ],
+  //   };
 
-    // setQuestions([...questions, newQuestion]);
-    if (document.documentElement.scrollHeight > window.innerHeight) {
-      window.scrollTo(0, document.documentElement.scrollHeight);
-    }
-  };
+  //   // setQuestions([...questions, newQuestion]);
+  //   if (document.documentElement.scrollHeight > window.innerHeight) {
+  //     window.scrollTo(0, document.documentElement.scrollHeight);
+  //   }
+  // };
 
   // useEffect(() => {
   //   if (document.documentElement.scrollHeight > window.innerHeight) {
@@ -125,7 +125,8 @@ function EditQuiz() {
         ))} */}
 
       <Tooltip title="Add question">
-        <IconButton onClick={addQuestion}>
+        <IconButton>
+          {/* <IconButton onClick={addQuestion}> */}
           <AddCircleIcon color="primary" />
         </IconButton>
       </Tooltip>

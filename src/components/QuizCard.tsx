@@ -24,7 +24,6 @@ import { useTheme } from '@mui/material/styles';
 import htmlToImage from 'html-to-image';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
-
 function QuizCard({ quiz }: { quiz: QuizType }) {
   const theme = useTheme();
   console.log(quiz);
@@ -75,6 +74,7 @@ function QuizCard({ quiz }: { quiz: QuizType }) {
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
+          disableScrollLock={true}
           onClose={handleMenuClose}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
