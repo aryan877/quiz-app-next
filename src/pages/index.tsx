@@ -60,7 +60,7 @@ const Index = () => {
   }, []);
 
   return (
-    <Box sx={{ mt: '4rem', mb: '4rem', width: '100%' }}>
+    <Box sx={{ my: 4, width: '100%' }}>
       {/* buttons to create and take quiz */}
       <div
         style={{
@@ -98,22 +98,22 @@ const Index = () => {
         </Button>
       </div>
 
-      {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <CircularProgress color="primary" />
-        </div>
-      ) : (
-        <div style={{ marginTop: '20px' }}>
-          <Typography
-            variant="h6"
-            component="h6"
-            align="left"
-            gutterBottom
-            fontWeight="bold"
-            mb={2}
-          >
-            All Quizzes ({quizzes.length})
-          </Typography>
+      <div style={{ marginTop: '4rem' }}>
+        <Typography
+          variant="h6"
+          component="h6"
+          align="left"
+          gutterBottom
+          fontWeight="bold"
+          mb={2}
+        >
+          All Quizzes ({quizzes.length})
+        </Typography>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress color="primary" />
+          </div>
+        ) : (
           <Grid container spacing={3} sx={{ justifyContent: 'start' }}>
             {quizzes.map((quiz) => (
               <Grid key={quiz.id} item>
@@ -121,8 +121,8 @@ const Index = () => {
               </Grid>
             ))}
           </Grid>
-        </div>
-      )}
+        )}
+      </div>
     </Box>
   );
 };

@@ -2,10 +2,13 @@ import EditableText from '@/components/EditableText';
 import { default as Question } from '@/components/QuestionComponent';
 import { RootState } from '@/store/reducers';
 // import { Quiz } from '@/store/reducers/quizFormSlice';
-import { QuestionType } from '@/store/reducers/quizFormSlice';
+import {
+  QuestionType,
+  QuizType,
+  setQuiz,
+} from '@/store/reducers/quizFormSlice';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
 import {
   Box,
   Card,
@@ -15,10 +18,23 @@ import {
   Typography,
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  QueryDocumentSnapshot,
+  where,
+} from 'firebase/firestore';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import db from '../../../firebase/firebase';
 
 function EditQuiz() {
   const [title, setTitle] = React.useState('Untitled Quiz');
@@ -27,6 +43,39 @@ function EditQuiz() {
   const handleTimeChange = (time: string) => {
     setTimeLimit(time);
   };
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const quiz = useSelector((state: RootState) => state.quizform.quiz);
+
+  const quizId = router.query.id as string;
+
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        const quizCollectionRef = collection(db, 'quizzes');
+        const quizQuery = query(quizCollectionRef, where('id', '==', quizId));
+        const quizDocs = await getDocs(quizQuery);
+        const quizData = quizDocs.docs[0].data();
+        console.log(quizData);
+        dispatch(setQuiz(quizData as QuizType));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (quizId) {
+      console.log(quizId);
+      fetchQuiz();
+    }
+  }, [quizId, dispatch]);
+
+  // useEffect(() => {
+  //   // When the data is fetched, set the quiz in the store
+  //   if (data) {
+  //     // dispatch(setQuiz(data));
+  //     console.log(data);
+  //   }
+  // }, [data, dispatch]);
 
   // const [questions, setQuestions] = useState<QuestionType[]>([]);
   // const dispatch = useDispatch();
@@ -34,14 +83,14 @@ function EditQuiz() {
   //   (state: RootState) => state.quizform.quiz?.questions
   // );
 
-  const hasMounted = useRef(false);
+  // const hasMounted = useRef(false);
 
-  useEffect(() => {
-    if (!hasMounted.current) {
-      window.scrollTo(0, 0);
-      hasMounted.current = true;
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!hasMounted.current) {
+  //     window.scrollTo(0, 0);
+  //     hasMounted.current = true;
+  //   }
+  // }, []);
 
   // const addQuestion = () => {
   //   const newQuestion = {
@@ -76,21 +125,22 @@ function EditQuiz() {
         marginBottom: '100px',
         maxWidth: 'md',
         width: '100%',
+        mt: 4,
       }}
     >
       <Card sx={{ backgroundColor: '#fff', p: 2, mt: 2 }}>
         <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <EditableText
-            textState={title}
+            textState={quiz.title}
             setTextState={setTitle}
             fontSize={'32px'}
-            defaultText={title}
+            defaultText={quiz.title}
           />
           <EditableText
-            textState={description}
+            textState={quiz.description}
             setTextState={setDescription}
             fontSize={'24px'}
-            defaultText={description}
+            defaultText={quiz.description}
           />
           <Box sx={{ mt: 2 }}>
             <TextField

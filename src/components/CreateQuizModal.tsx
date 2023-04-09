@@ -95,7 +95,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
         <Box sx={{ mt: 2 }}>
           <TextField
             variant="outlined"
-            placeholder="Enter Quiz Name"
+            placeholder="Enter Quiz Title"
             fullWidth
             value={quizName}
             onChange={handleQuizNameChange}

@@ -60,7 +60,7 @@ export default function MyApp(props: MyAppProps) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              p: '4rem',
+              my: 8,
             }}
           >
             <NextNProgress color="red" />

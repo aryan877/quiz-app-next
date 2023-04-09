@@ -23,7 +23,7 @@ export interface QuizType {
 }
 
 interface QuizState {
-  quiz?: QuizType;
+  quiz: QuizType;
 }
 
 import { v4 as uuidv4 } from 'uuid';

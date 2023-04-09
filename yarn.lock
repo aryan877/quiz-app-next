@@ -4305,6 +4305,11 @@
     "has-symbols" "^1.0.3"
     "which-boxed-primitive" "^1.0.2"
 
+"uninstall@^0.0.0":
+  "integrity" "sha512-pjP/0+A4gsbDVa8XH/S2GZdT9NPJW8NFMy3GI7HnsWG+NAmFSSj3QidNosXBI9cPtxxNExEDdhKFO6sli8K3mA=="
+  "resolved" "https://registry.npmjs.org/uninstall/-/uninstall-0.0.0.tgz"
+  "version" "0.0.0"
+
 "unique-filename@^2.0.0":
   "version" "2.0.1"
   dependencies:
