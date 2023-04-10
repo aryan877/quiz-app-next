@@ -41,7 +41,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
 
   const addQuiz = async () => {
     try {
-      const response = await axios.post('/api/quizzes', quiz);
+      const response = await axios.post('/api/add-quiz', quiz);
       const quizId = response.data.id;
       console.log('Quiz added with ID: ', quizId);
       setIsSuccess(true);
