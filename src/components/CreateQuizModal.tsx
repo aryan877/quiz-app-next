@@ -9,7 +9,7 @@ import { addDoc, collection, getDoc, Timestamp } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import React, { FC, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import db from '../../firebase/firebase';
+import { db } from '../firebase/firebase';
 type CreateQuizModalProps = {
   openModal: boolean;
   setOpenModal: any;

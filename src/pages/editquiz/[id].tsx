@@ -34,7 +34,7 @@ import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import db from '../../../firebase/firebase';
+import { db } from '../../firebase/firebase';
 
 function EditQuiz() {
   const [title, setTitle] = React.useState('Untitled Quiz');

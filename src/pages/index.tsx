@@ -26,7 +26,7 @@ import {
   QueryDocumentSnapshot,
 } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import db from '../../firebase/firebase';
+import { db } from '../firebase/firebase';
 
 const Index = () => {
   const theme = useTheme();
