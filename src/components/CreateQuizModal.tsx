@@ -42,13 +42,17 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
   const addQuiz = async () => {
     try {
       const response = await axios.post('/api/add-quiz', quiz);
-      const quizId = response.data.id;
-      console.log('Quiz added with ID: ', quizId);
+      const quizData = response.data;
+      console.log('Quiz added: ', quizData);
       setIsSuccess(true);
+      console.log('1');
+      console.log(quizData);
       setTimeout(() => {
+        console.log('2');
+        console.log(quizData);
         setIsSuccess(false);
         setOpenModal(false);
-        router.push(`/editquiz/${quizId}`);
+        router.push(`/editquiz/${quizData.id}`);
       }, 2000);
     } catch (error) {
       console.error('Error adding quiz: ', error);

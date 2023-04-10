@@ -18,9 +18,7 @@ export default async function handler(
     // Get the newly added document from the database to retrieve the id field
     const docSnapshot = await getDoc(docRef);
     const quizData = docSnapshot.data();
-    const quizId = quizData?.id;
-    console.log('Quiz added with ID: ', quizId);
-    res.status(200).json({ quizId });
+    res.status(200).json({ ...quizData });
   } catch (error) {
     console.error('Error adding quiz: ', error);
     res.status(500).json({ error });

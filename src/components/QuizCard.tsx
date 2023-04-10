@@ -14,7 +14,6 @@ import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 
 function QuizCard({ quiz }: { quiz: QuizType }) {
-  console.log(quiz);
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState(null);

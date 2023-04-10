@@ -42,7 +42,6 @@ const Index = () => {
       try {
         const response = await fetch('/api/get-all-quizzes');
         const data = await response.json();
-        console.log(data);
         setQuizzes(data);
       } catch (error) {
         setError(error);
