@@ -2,14 +2,14 @@ import { QuizType } from '@/store/reducers/quizFormSlice';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
+import axios from 'axios';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { addDoc, collection, getDoc, Timestamp } from 'firebase/firestore';
-
 import { useRouter } from 'next/router';
 import React, { FC, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { db } from '../firebase/firebase';
+import { db } from '../../firebase/firebase';
 type CreateQuizModalProps = {
   openModal: boolean;
   setOpenModal: any;
@@ -22,6 +22,8 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
 }) => {
   const [quizName, setQuizName] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<any>(null);
   const router = useRouter();
   // router.push(`/edit/${docRef.id}`);
 
@@ -37,16 +39,10 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
     createdAt: Timestamp.fromDate(new Date()),
   };
 
-  const handleClose = async () => {
-    // Initialize quizzes collection
-    const quizzesCollection = collection(db, 'quizzes');
-    // Add quiz data to quizzes collection
+  const addQuiz = async () => {
     try {
-      const docRef = await addDoc(quizzesCollection, quiz);
-      // Get the newly added document from the database to retrieve the id field
-      const docSnapshot = await getDoc(docRef);
-      const quizData = docSnapshot.data();
-      const quizId = quizData?.id;
+      const response = await axios.post('/api/quizzes', quiz);
+      const quizId = response.data.id;
       console.log('Quiz added with ID: ', quizId);
       setIsSuccess(true);
       setTimeout(() => {
@@ -56,6 +52,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
       }, 2000);
     } catch (error) {
       console.error('Error adding quiz: ', error);
+      setError(error);
     }
   };
 
@@ -111,7 +108,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
             Cancel
           </Button>
           <Button
-            onClick={handleClose}
+            onClick={addQuiz}
             color="primary"
             variant="contained"
             disabled={createButtonDisabled}

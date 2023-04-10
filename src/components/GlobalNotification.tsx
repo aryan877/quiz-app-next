@@ -15,9 +15,9 @@ function GlobalNotification() {
 
   const [showSnackbar, setShowSnackbar] = useState(false);
 
-  useEffect(() => {
-    setShowSnackbar(true);
-  }, []);
+  // useEffect(() => {
+  //   setShowSnackbar(true);
+  // }, []);
 
   const handleClose = () => {
     setShowSnackbar(false);

@@ -1,35 +1,22 @@
 import { QuizType } from '@/store/reducers/quizFormSlice';
 import { Delete, Edit } from '@mui/icons-material';
-import AddIcon from '@mui/icons-material/Add';
 import { default as MoreVertIcon } from '@mui/icons-material/MoreVert';
-import QuizIcon from '@mui/icons-material/Quiz';
 import {
-  AppBar,
   Box,
-  Button,
   Card,
-  CardActions,
-  CardContent,
-  Container,
-  Divider,
-  Grid,
   IconButton,
   Menu,
   MenuItem,
-  Toolbar,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import htmlToImage from 'html-to-image';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
-function QuizCard({ quiz }: { quiz: QuizType }) {
-  const theme = useTheme();
-  console.log(quiz);
 
-  const [imageSrc, setImageSrc] = useState(null);
-  const imageRef = useRef(null);
+function QuizCard({ quiz }: { quiz: QuizType }) {
+  console.log(quiz);
+  const theme = useTheme();
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event: any) => {
@@ -118,7 +105,13 @@ function QuizCard({ quiz }: { quiz: QuizType }) {
             backgroundColor: theme.palette.primary.main,
           }}
         >
-          <Typography variant="h6" component="h3" align="left" color="white">
+          <Typography
+            mr={3}
+            variant="h6"
+            component="h3"
+            align="left"
+            color="white"
+          >
             {quiz.title}
           </Typography>
         </Box>
@@ -131,17 +124,10 @@ function QuizCard({ quiz }: { quiz: QuizType }) {
           <Typography variant="subtitle2" align="left" color="textPrimary">
             {quiz.createdAt && (
               <>
-                {' '}
                 Created on{' '}
-                {new Date(quiz.createdAt.toMillis()).toLocaleString('en-US', {
-                  day: 'numeric',
-                  month: 'numeric',
-                  year: 'numeric',
-                  weekday: 'short',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                  hour12: true,
-                })}
+                {new Date(quiz.createdAt.seconds * 1000).toLocaleString(
+                  'en-US'
+                )}
               </>
             )}
           </Typography>

@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
+import axios from 'axios';
 import {
   addDoc,
   collection,
@@ -26,13 +27,12 @@ import {
   QueryDocumentSnapshot,
 } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { db } from '../firebase/firebase';
-
+import { db } from '../../firebase/firebase';
 const Index = () => {
   const theme = useTheme();
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<any>(null);
   const [quizzes, setQuizzes] = useState<any[]>([]);
 
   useEffect(() => {
@@ -40,18 +40,12 @@ const Index = () => {
       setLoading(true);
       setError(null);
       try {
-        const quizCollection = collection(db, 'quizzes');
-        const quizSnapshot = await getDocs(
-          query(quizCollection, orderBy('createdAt', 'desc'))
-        );
-        const quizList = quizSnapshot.docs.map(
-          (doc: QueryDocumentSnapshot) => ({
-            ...doc.data(),
-          })
-        );
-        setQuizzes(quizList);
-      } catch (err: any) {
-        setError(err);
+        const response = await fetch('/api/get-all-quizzes');
+        const data = await response.json();
+        console.log(data);
+        setQuizzes(data);
+      } catch (error) {
+        setError(error);
       } finally {
         setLoading(false);
       }

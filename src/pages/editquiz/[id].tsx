@@ -5,8 +5,10 @@ import { RootState } from '@/store/reducers';
 import {
   QuestionType,
   QuizType,
+  removeQuiz,
   setQuiz,
 } from '@/store/reducers/quizFormSlice';
+import { keyframes } from '@emotion/react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import {
@@ -17,24 +19,14 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-  QueryDocumentSnapshot,
-  where,
-} from 'firebase/firestore';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { db } from '../../firebase/firebase';
 
 function EditQuiz() {
   const [title, setTitle] = React.useState('Untitled Quiz');
@@ -43,19 +35,30 @@ function EditQuiz() {
   const handleTimeChange = (time: string) => {
     setTimeLimit(time);
   };
+  const theme = useTheme();
+
+  const pulseAnimation = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 ${theme.palette.primary.main};
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 255, 0);
+  }
+`;
   const router = useRouter();
   const dispatch = useDispatch();
   const quiz = useSelector((state: RootState) => state.quizform.quiz);
 
-  const quizId = router.query.id as string;
-
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const quizCollectionRef = collection(db, 'quizzes');
-        const quizQuery = query(quizCollectionRef, where('id', '==', quizId));
-        const quizDocs = await getDocs(quizQuery);
-        const quizData = quizDocs.docs[0].data();
+        const response = await axios.get(
+          `/api/get-quiz-by-id?id=${router.query.id}`
+        );
+        const quizData = response.data;
         console.log(quizData);
         dispatch(setQuiz(quizData as QuizType));
       } catch (error) {
@@ -63,11 +66,14 @@ function EditQuiz() {
       }
     };
 
-    if (quizId) {
-      console.log(quizId);
+    if (router.query.id) {
+      console.log(router.query.id);
       fetchQuiz();
     }
-  }, [quizId, dispatch]);
+    return () => {
+      dispatch(removeQuiz());
+    };
+  }, [router.query.id, dispatch]);
 
   // useEffect(() => {
   //   // When the data is fetched, set the quiz in the store
@@ -175,7 +181,12 @@ function EditQuiz() {
         ))} */}
 
       <Tooltip title="Add question">
-        <IconButton>
+        <IconButton
+          sx={{
+            my: 2,
+            animation: `${pulseAnimation} 2s infinite`,
+          }}
+        >
           {/* <IconButton onClick={addQuestion}> */}
           <AddCircleIcon color="primary" />
         </IconButton>

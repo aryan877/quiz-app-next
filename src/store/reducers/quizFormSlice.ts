@@ -75,6 +75,9 @@ const quizSlice = createSlice({
     setQuiz(state, action: PayloadAction<QuizType>) {
       state.quiz = action.payload;
     },
+    removeQuiz(state) {
+      state.quiz = initialState.quiz;
+    },
     addQuestion(state, action: PayloadAction<QuestionType>) {
       if (state.quiz) {
         state.quiz.questions.push(action.payload);
@@ -198,6 +201,7 @@ export const {
   removeQuestion,
   addOption,
   removeOption,
+  removeQuiz,
 } = quizSlice.actions;
 
 export default quizSlice.reducer;
