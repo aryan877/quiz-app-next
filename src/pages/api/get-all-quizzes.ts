@@ -13,7 +13,9 @@ export default async function handler(
       query(quizCollection, orderBy('createdAt', 'desc'))
     );
     const quizList = quizSnapshot.docs.map((doc) => ({
-      ...doc.data(),
+      id: doc.data().id,
+      title: doc.data().title,
+      createdAt: doc.data().createdAt,
     })) as QuizType[];
     res.status(200).json(quizList);
   } catch (error) {

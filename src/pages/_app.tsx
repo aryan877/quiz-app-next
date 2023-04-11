@@ -8,7 +8,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import NextNProgress from 'nextjs-progressbar';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
@@ -63,7 +62,6 @@ export default function MyApp(props: MyAppProps) {
               my: 8,
             }}
           >
-            <NextNProgress color="red" />
             <Component {...pageProps} />
           </Container>
         </ThemeProvider>

@@ -8,12 +8,11 @@ import {
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { QuizType } from '@/store/reducers/quizFormSlice';
-
+import { db } from '../../../firebase/firebase';
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<QuizType[] | {}>
 ) {
-  const db = getFirestore();
   const quizId = req.query.id as string;
 
   try {

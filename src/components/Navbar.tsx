@@ -21,9 +21,9 @@ const Navbar = () => {
             </Box>
           </Link>
           <Box sx={{ flexGrow: 0, p: 1 }}>
-            <Typography variant="h6" component="div">
-              saving....
-            </Typography>
+            {/* <Typography variant="h6" component="div">
+              Total 100 Points
+            </Typography> */}
           </Box>
           <Box sx={{ flexGrow: 1 }} />
         </Box>

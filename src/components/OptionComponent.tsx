@@ -1,16 +1,53 @@
-import { OptionType } from '@/store/reducers/quizFormSlice';
+import {
+  OptionType,
+  removeOption,
+  updateOptionIsAnswer,
+  updateOptionTitle,
+} from '@/store/reducers/quizFormSlice';
 import { Close } from '@mui/icons-material';
 import { Checkbox, Grid, IconButton, Tooltip } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import EditableText from './EditableText';
 
-function Option({ option }: { option: OptionType }) {
+function Option({
+  option,
+  questionId,
+}: {
+  option: OptionType;
+  questionId: string;
+}) {
   const [optionTitle, setOptionTitle] = useState(option.title);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(option.isAnswer);
+  const dispatch = useDispatch();
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
+
+  const removeOptionHandler = () => {
+    dispatch(removeOption({ questionId: questionId, optionId: option.id }));
+  };
+
+  useEffect(() => {
+    dispatch(
+      updateOptionIsAnswer({
+        questionId: questionId,
+        optionId: option.id,
+        isAnswer: checked,
+      })
+    );
+  }, [checked, dispatch, questionId, option.id]);
+
+  useEffect(() => {
+    dispatch(
+      updateOptionTitle({
+        questionId: questionId,
+        optionId: option.id,
+        title: optionTitle,
+      })
+    );
+  }, [optionTitle, dispatch, option.id, questionId]);
 
   return (
     <Grid
@@ -20,19 +57,19 @@ function Option({ option }: { option: OptionType }) {
       sx={{ width: '100%', margin: 0 }}
     >
       <Grid item>
-        <Checkbox checked={checked} onChange={handleCheckboxChange} />
+        <Checkbox checked={option.isAnswer} onChange={handleCheckboxChange} />
       </Grid>
       <Grid item sx={{ flexGrow: 1 }}>
         <EditableText
           key={option.id}
-          textState={optionTitle}
+          textState={option.title}
           setTextState={setOptionTitle}
-          defaultText={optionTitle}
+          defaultText={option.title}
           fontSize={'16px'}
         />
       </Grid>
       <Grid item>
-        <Tooltip title="Remove">
+        <Tooltip onClick={removeOptionHandler} title="Remove">
           <IconButton>
             <Close />
           </IconButton>

@@ -17,12 +17,13 @@ export interface QuestionType {
 export interface QuizType {
   id: string;
   title: string;
+  timelimit: number;
   description: string;
   questions: QuestionType[];
   createdAt?: Timestamp;
 }
 
-interface QuizState {
+export interface QuizState {
   quiz: QuizType;
 }
 
@@ -65,6 +66,7 @@ const initialState: QuizState = {
     title: 'Untitled Quiz',
     description: 'enter description',
     questions: [],
+    timelimit: 10,
   },
 };
 
@@ -73,10 +75,29 @@ const quizSlice = createSlice({
   initialState,
   reducers: {
     setQuiz(state, action: PayloadAction<QuizType>) {
-      state.quiz = action.payload;
+      if (state.quiz) {
+        state.quiz = action.payload;
+      }
     },
     removeQuiz(state) {
-      state.quiz = initialState.quiz;
+      if (state.quiz) {
+        state.quiz = initialState.quiz;
+      }
+    },
+    updateQuizTitle(state, action: PayloadAction<string>) {
+      if (state.quiz) {
+        state.quiz.title = action.payload;
+      }
+    },
+    updateQuizDescription(state, action: PayloadAction<string>) {
+      if (state.quiz) {
+        state.quiz.description = action.payload;
+      }
+    },
+    updateQuizTimeLimit(state, action: PayloadAction<number>) {
+      if (state.quiz) {
+        state.quiz.timelimit = action.payload;
+      }
     },
     addQuestion(state, action: PayloadAction<QuestionType>) {
       if (state.quiz) {
@@ -195,6 +216,9 @@ export const {
   setQuiz,
   addQuestion,
   updateQuestionPrompt,
+  updateQuizTitle,
+  updateQuizDescription,
+  updateQuizTimeLimit,
   updateQuestionPoints,
   updateOptionTitle,
   updateOptionIsAnswer,

@@ -1,15 +1,11 @@
 import { QuizType } from '@/store/reducers/quizFormSlice';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
-import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
-import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { addDoc, collection, getDoc, Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import React, { FC, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { db } from '../../firebase/firebase';
 type CreateQuizModalProps = {
   openModal: boolean;
   setOpenModal: any;
@@ -22,8 +18,9 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
 }) => {
   const [quizName, setQuizName] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
+
   const router = useRouter();
   // router.push(`/edit/${docRef.id}`);
 
@@ -37,26 +34,24 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
     description: 'enter description',
     questions: [],
     createdAt: Timestamp.fromDate(new Date()),
+    timelimit: 10,
   };
 
   const addQuiz = async () => {
     try {
-      const response = await axios.post('/api/add-quiz', quiz);
-      const quizData = response.data;
-      console.log('Quiz added: ', quizData);
+      setLoading(true);
+      const { data } = await axios.post('/api/add-quiz', quiz);
       setIsSuccess(true);
-      console.log('1');
-      console.log(quizData);
+      setLoading(false);
       setTimeout(() => {
-        console.log('2');
-        console.log(quizData);
         setIsSuccess(false);
         setOpenModal(false);
-        router.push(`/editquiz/${quizData.id}`);
-      }, 2000);
+        router.push(`/editquiz/${data.id}`);
+      }, 1000);
     } catch (error) {
       console.error('Error adding quiz: ', error);
       setError(error);
+      setLoading(false);
     }
   };
 
@@ -121,6 +116,11 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
             Create
           </Button>
         </Box>
+        {loading && (
+          <Box sx={{ mt: 2 }}>
+            <Typography color="black">Creating Quiz...</Typography>
+          </Box>
+        )}
         {isSuccess && (
           <Box sx={{ mt: 2 }}>
             <Typography color="green">Quiz successfully created!</Typography>

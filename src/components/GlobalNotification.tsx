@@ -1,8 +1,10 @@
+import { RootState } from '@/store/reducers';
+import { removeNotification } from '@/store/reducers/notificationSlice';
 import { AlertProps, default as MuiAlert } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { useTheme } from '@mui/material/styles';
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref
@@ -12,40 +14,47 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 function GlobalNotification() {
   const theme = useTheme();
+  const notification = useSelector(
+    (state: RootState) => state.notification.notification
+  );
+  const dispatch = useDispatch();
 
-  const [showSnackbar, setShowSnackbar] = useState(false);
-
-  // useEffect(() => {
-  //   setShowSnackbar(true);
-  // }, []);
-
-  const handleClose = () => {
-    setShowSnackbar(false);
-  };
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | undefined;
+    if (notification?.type === 'success' || notification?.type === 'error') {
+      timeoutId = setTimeout(() => {
+        dispatch(removeNotification());
+      }, 2000);
+    }
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [dispatch, notification]);
 
   return (
     <>
-      {showSnackbar && (
+      {notification && (
         <Snackbar
           open={true}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
           }}
-          autoHideDuration={3000}
-          onClose={handleClose}
         >
           <Alert
-            severity="success"
+            severity={notification.type}
             sx={{
-              backgroundColor: theme.palette.success.main,
+              backgroundColor:
+                notification.type === 'error'
+                  ? theme.palette.error.main
+                  : theme.palette.success.main,
               color: theme.palette.common.white,
               '& .MuiAlert-icon': {
                 marginRight: theme.spacing(1),
               },
             }}
           >
-            This is a dummy notification message
+            {notification.message}
           </Alert>
         </Snackbar>
       )}

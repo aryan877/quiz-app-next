@@ -1,14 +1,17 @@
-import EditableText from '@/components/EditableText';
-import { default as Question } from '@/components/QuestionComponent';
+import { default as EditableNumber } from '@/components/EditableNumber';
+import { default as EditableText } from '@/components/EditableText';
+import Question from '@/components/QuestionComponent';
 import { RootState } from '@/store/reducers';
-// import { Quiz } from '@/store/reducers/quizFormSlice';
 import {
+  addQuestion,
   QuestionType,
   QuizType,
   removeQuiz,
   setQuiz,
+  updateQuizDescription,
+  updateQuizTimeLimit,
+  updateQuizTitle,
 } from '@/store/reducers/quizFormSlice';
-import { keyframes } from '@emotion/react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import {
@@ -29,28 +32,41 @@ import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 function EditQuiz() {
-  const [title, setTitle] = React.useState('Untitled Quiz');
-  const [description, setDescription] = React.useState('Quiz Description');
-  const [timeLimit, setTimeLimit] = useState<string>('0');
-  const handleTimeChange = (time: string) => {
-    setTimeLimit(time);
-  };
-  const theme = useTheme();
-
-  const pulseAnimation = keyframes`
-  0% {
-    box-shadow: 0 0 0 0 ${theme.palette.primary.main};
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(0, 0, 255, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(0, 0, 255, 0);
-  }
-`;
   const router = useRouter();
   const dispatch = useDispatch();
   const quiz = useSelector((state: RootState) => state.quizform.quiz);
+
+  const [quizTitle, setQuizTitle] = React.useState(quiz.title);
+  const [description, setDescription] = React.useState(quiz.description);
+  const [timeLimit, setTimeLimit] = useState<number>(quiz.timelimit);
+
+  const addQuestionHandler = () => {
+    const newQuestion = {
+      id: uuidv4(),
+      prompt: 'Question',
+      points: 1,
+      options: [{ id: uuidv4(), title: 'Option', isAnswer: false }],
+    };
+    dispatch(addQuestion(newQuestion));
+  };
+
+  useEffect(() => {
+    if (document.documentElement.scrollHeight > window.innerHeight) {
+      window.scrollTo(0, document.documentElement.scrollHeight);
+    }
+  }, [quiz.questions.length]);
+
+  useEffect(() => {
+    dispatch(updateQuizTitle(quizTitle));
+  }, [quizTitle, dispatch]);
+
+  useEffect(() => {
+    dispatch(updateQuizTimeLimit(timeLimit));
+  }, [timeLimit, dispatch]);
+
+  useEffect(() => {
+    dispatch(updateQuizDescription(description));
+  }, [description, dispatch]);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -59,7 +75,6 @@ function EditQuiz() {
           `/api/get-quiz-by-id?id=${router.query.id}`
         );
         const quizData = response.data;
-        console.log(quizData);
         dispatch(setQuiz(quizData as QuizType));
       } catch (error) {
         console.log(error);
@@ -75,70 +90,19 @@ function EditQuiz() {
     };
   }, [router.query.id, dispatch]);
 
-  // useEffect(() => {
-  //   // When the data is fetched, set the quiz in the store
-  //   if (data) {
-  //     // dispatch(setQuiz(data));
-  //     console.log(data);
-  //   }
-  // }, [data, dispatch]);
-
-  // const [questions, setQuestions] = useState<QuestionType[]>([]);
-  // const dispatch = useDispatch();
-  // const questions = useSelector(
-  //   (state: RootState) => state.quizform.quiz?.questions
-  // );
-
-  // const hasMounted = useRef(false);
-
-  // useEffect(() => {
-  //   if (!hasMounted.current) {
-  //     window.scrollTo(0, 0);
-  //     hasMounted.current = true;
-  //   }
-  // }, []);
-
-  // const addQuestion = () => {
-  //   const newQuestion = {
-  //     id: uuidv4(),
-  //     title: 'New Question',
-  //     prompt: '',
-  //     options: [
-  //       { id: uuidv4(), title: 'Option 1' },
-  //       { id: uuidv4(), title: 'Option 2' },
-  //       { id: uuidv4(), title: 'Option 3' },
-  //     ],
-  //   };
-
-  //   // setQuestions([...questions, newQuestion]);
-  //   if (document.documentElement.scrollHeight > window.innerHeight) {
-  //     window.scrollTo(0, document.documentElement.scrollHeight);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (document.documentElement.scrollHeight > window.innerHeight) {
-  //     window.scrollTo(0, document.documentElement.scrollHeight);
-  //   }
-  //   // return () => {
-  //   //   second
-  //   // }
-  // }, [questions]);
-
   return (
     <Box
       sx={{
-        marginBottom: '100px',
         maxWidth: 'md',
         width: '100%',
         mt: 4,
       }}
     >
-      <Card sx={{ backgroundColor: '#fff', p: 2, mt: 2 }}>
+      <Card sx={{ backgroundColor: '#fff', p: 2, mt: 2, mb: 1 }}>
         <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <EditableText
             textState={quiz.title}
-            setTextState={setTitle}
+            setTextState={setQuizTitle}
             fontSize={'32px'}
             defaultText={quiz.title}
           />
@@ -149,12 +113,11 @@ function EditQuiz() {
             defaultText={quiz.description}
           />
           <Box sx={{ mt: 2 }}>
-            <TextField
-              label="Time Limit in minutes"
-              type="number"
-              defaultValue={0}
-              InputProps={{ inputProps: { min: 0 } }}
-              sx={{ mr: 1 }}
+            <EditableNumber
+              setNumberState={setTimeLimit}
+              numberState={quiz.timelimit}
+              fontSize={'32px'}
+              label={'Time Limit in Minutes'}
             />
           </Box>
           <Typography
@@ -165,26 +128,18 @@ function EditQuiz() {
             <CheckBoxIcon sx={{ ml: 1 }} />
           </Typography>
         </CardContent>
-        {/* <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            mt: 1,
-          }}
-        ></Box> */}
       </Card>
 
-      {/* {questions &&
-        questions.map((question: QuestionType, index: number) => (
+      {quiz.questions &&
+        quiz.questions.map((question: QuestionType, index: number) => (
           <Question key={question.id} index={index + 1} question={question} />
-        ))} */}
+        ))}
 
       <Tooltip title="Add question">
         <IconButton
+          onClick={addQuestionHandler}
           sx={{
-            my: 2,
-            animation: `${pulseAnimation} 2s infinite`,
+            backgroundColor: 'primary',
           }}
         >
           {/* <IconButton onClick={addQuestion}> */}

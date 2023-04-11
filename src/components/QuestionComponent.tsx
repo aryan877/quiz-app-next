@@ -1,6 +1,14 @@
+import { default as EditableNumber } from '@/components/EditableNumber';
 import EditableText from '@/components/EditableText';
 import Option from '@/components/OptionComponent';
-import { QuestionType } from '@/store/reducers/quizFormSlice';
+import {
+  addOption,
+  OptionType,
+  QuestionType,
+  removeQuestion,
+  updateQuestionPoints,
+  updateQuestionPrompt,
+} from '@/store/reducers/quizFormSlice';
 import { Delete } from '@mui/icons-material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
@@ -11,9 +19,11 @@ import {
   IconButton,
   TextField,
   Tooltip,
-  Typography
+  Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
   question: QuestionType;
@@ -21,10 +31,42 @@ interface Props {
 }
 
 function Question({ question, index }: Props) {
-  const [questionTitle, setQuestionTitle] = useState(question.prompt);
+  const [questionPrompt, setquestionPrompt] = useState(question.prompt);
+  const [questionPoints, setQuestionPoints] = useState<number>(question.points);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  const removeQuestionHandler = () => {
+    dispatch(removeQuestion(question.id));
+  };
+
+  const addOptionHandler = () => {
+    const newOption = {
+      id: uuidv4(),
+      title: 'Option',
+      isAnswer: false,
+    } as OptionType;
+    dispatch(addOption({ questionId: question.id, option: newOption }));
+  };
+
+  useEffect(() => {
+    dispatch(
+      updateQuestionPoints({ questionId: question.id, points: questionPoints })
+    );
+  }, [questionPoints, dispatch, question.id]);
+
+  useEffect(() => {
+    dispatch(
+      updateQuestionPrompt({ questionId: question.id, prompt: questionPrompt })
+    );
+  }, [questionPrompt, question.id, dispatch]);
 
   return (
-    <Card sx={{ my: 2, p: 2 }}>
+    <Card sx={{ my: 2, p: { xs: 0, sm: 2 } }}>
       <CardContent>
         <Box
           sx={{
@@ -37,19 +79,21 @@ function Question({ question, index }: Props) {
             {`${index}.`}
           </Typography>
           <EditableText
-            textState={questionTitle}
-            setTextState={setQuestionTitle}
-            defaultText={questionTitle}
+            textState={question.prompt}
+            setTextState={setquestionPrompt}
+            defaultText={questionPrompt}
             fontSize={'20px'}
             bold
+            refProp={inputRef}
           />
         </Box>
+
         {question.options?.map((option) => (
-          <Option key={option.id} option={option} />
+          <Option key={option.id} option={option} questionId={question.id} />
         ))}
 
         <Box sx={{ ml: 2 }}>
-          <Tooltip title="Add option" sx={{ my: 2 }}>
+          <Tooltip title="Add option" onClick={addOptionHandler} sx={{ my: 0 }}>
             <IconButton>
               <AddCircleIcon color="primary" />
             </IconButton>
@@ -63,19 +107,26 @@ function Question({ question, index }: Props) {
               alignItems: 'center',
               justifyContent: 'space-between',
               ml: 1,
-              mt: 4,
+              mt: 2,
             }}
           >
-            <TextField
+            {/* <TextField
               label="Points"
               type="number"
               defaultValue={question.points}
               InputProps={{ inputProps: { min: 0 } }}
               sx={{ mr: 1 }}
+            /> */}
+
+            <EditableNumber
+              setNumberState={setQuestionPoints}
+              numberState={question.points}
+              fontSize={'24px'}
+              label={'Points'}
             />
 
             <Tooltip title="Delete question">
-              <IconButton>
+              <IconButton onClick={removeQuestionHandler}>
                 <Delete color="error" />
               </IconButton>
             </Tooltip>

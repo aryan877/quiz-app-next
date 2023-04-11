@@ -1,57 +1,43 @@
 import CreateQuizModal from '@/components/CreateQuizModal';
-import GlobalNotification from '@/components/GlobalNotification';
-import Navbar from '@/components/Navbar';
 import QuizCard from '@/components/QuizCard';
-import { QuizType } from '@/store/reducers/quizFormSlice';
+import { RootState } from '@/store/reducers';
+import { addQuizzesList } from '@/store/reducers/quizIndexSlice';
 import AddIcon from '@mui/icons-material/Add';
 import QuizIcon from '@mui/icons-material/Quiz';
-import {
-  AppBar,
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  Divider,
-  Grid,
-  Typography,
-} from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
-import {
-  addDoc,
-  collection,
-  getDocs,
-  orderBy,
-  query,
-  QueryDocumentSnapshot,
-} from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { db } from '../../firebase/firebase';
+import { useDispatch, useSelector } from 'react-redux';
+
 const Index = () => {
-  const theme = useTheme();
+  //states
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
-  const [quizzes, setQuizzes] = useState<any[]>([]);
-
+  //states
+  //hooks
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const quizzes = useSelector((state: RootState) => state.quizIndex.quizzes);
   useEffect(() => {
     const fetchQuizzes = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch('/api/get-all-quizzes');
-        const data = await response.json();
-        setQuizzes(data);
+        const response = await axios.get('/api/get-all-quizzes');
+        dispatch(addQuizzesList(response.data));
       } catch (error) {
         setError(error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
     };
     fetchQuizzes();
-  }, []);
-
+  }, [dispatch]);
+  //hooks
+  //render
   return (
     <Box sx={{ my: 4, width: '100%' }}>
       {/* buttons to create and take quiz */}
@@ -118,6 +104,7 @@ const Index = () => {
       </div>
     </Box>
   );
+  //render
 };
 
 export default Index;

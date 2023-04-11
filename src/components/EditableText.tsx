@@ -7,6 +7,7 @@ interface EditableTextProps {
   textState: string;
   fontSize: string;
   bold?: boolean;
+  refProp?: React.RefObject<HTMLInputElement>;
 }
 
 function EditableText({
@@ -15,6 +16,7 @@ function EditableText({
   textState,
   fontSize,
   bold,
+  refProp,
 }: EditableTextProps) {
   const [initialTextState, setInitialTextState] = useState(defaultText);
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +38,7 @@ function EditableText({
       fullWidth
       multiline
       variant="standard"
+      inputRef={refProp}
       sx={{
         fontSize: fontSize,
         fontWeight: 'bold',

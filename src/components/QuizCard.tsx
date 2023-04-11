@@ -1,4 +1,6 @@
+import { addNotification } from '@/store/reducers/notificationSlice';
 import { QuizType } from '@/store/reducers/quizFormSlice';
+import { removeQuizByIdinList } from '@/store/reducers/quizIndexSlice';
 import { Delete, Edit } from '@mui/icons-material';
 import { default as MoreVertIcon } from '@mui/icons-material/MoreVert';
 import {
@@ -10,30 +12,51 @@ import {
   Typography,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import axios from 'axios';
 import Link from 'next/link';
-import React, { useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-function QuizCard({ quiz }: { quiz: QuizType }) {
+function QuizCard({ quiz }: { quiz: any }) {
+  //hooks
   const theme = useTheme();
-
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const router = useRouter();
+  //hooks
+  //handlers
   const handleMenuOpen = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-
-  const handleDelete = (event: any) => {
-    // Delete the quiz
+  const handleDelete = async () => {
+    try {
+      const response = await axios.get(`/api/delete-quiz-by-id?id=${quiz.id}`);
+      dispatch(
+        addNotification({
+          type: 'success',
+          message: 'Quiz deleted successfully',
+        })
+      );
+      dispatch(removeQuizByIdinList(quiz.id));
+    } catch (error) {
+      console.error(error);
+      dispatch(
+        addNotification({
+          type: 'error',
+          message: 'An error occurred while deleting the quiz',
+        })
+      );
+    }
   };
-
-  const handleEdit = (event: any) => {
+  const handleEdit = () => {
     // Edit the quiz
+    router.push(`/editquiz/${quiz.id}`);
   };
-
+  //handlers
   return (
     <Card
       className="quiz-card-parent"
@@ -45,7 +68,6 @@ function QuizCard({ quiz }: { quiz: QuizType }) {
       }}
     >
       {/* <Box> */}
-      {/* ============ */}
       <Box
         sx={{
           position: 'absolute',

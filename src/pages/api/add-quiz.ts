@@ -2,12 +2,12 @@
 import { QuizType } from '@/store/reducers/quizFormSlice';
 import { addDoc, collection, getDoc, getFirestore } from 'firebase/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
+import { db } from '../../../firebase/firebase';
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<QuizType[] | {}>
 ) {
-  const db = getFirestore();
+
   const quiz = req.body;
 
   // Initialize quizzes collection
