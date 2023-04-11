@@ -66,7 +66,7 @@ function Question({ question, index }: Props) {
   }, [questionPrompt, question.id, dispatch]);
 
   return (
-    <Card sx={{ my: 2, p: { xs: 0, sm: 2 } }}>
+    <Card sx={{ my: 2, py: { xs: 0, sm: 1 }, px: { xs: 0, sm: 2 } }}>
       <CardContent>
         <Box
           sx={{
@@ -75,15 +75,17 @@ function Question({ question, index }: Props) {
             justifyContent: 'space-between',
           }}
         >
-          <Typography variant="h6" sx={{ flexGrow: 1, px: 1 }} component="div">
+          <Typography
+            sx={{ flexGrow: 1, mr: 1, fontSize: '16px' }}
+            component="div"
+          >
             {`${index}.`}
           </Typography>
           <EditableText
             textState={question.prompt}
             setTextState={setquestionPrompt}
             defaultText={questionPrompt}
-            fontSize={'20px'}
-            bold
+            fontSize={'16px'}
             refProp={inputRef}
           />
         </Box>
@@ -106,7 +108,6 @@ function Question({ question, index }: Props) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              ml: 1,
               mt: 2,
             }}
           >

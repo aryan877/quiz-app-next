@@ -1,7 +1,51 @@
-import { AppBar, Box, Toolbar, Typography } from '@mui/material';
+import { RootState } from '@/store/reducers';
+import { addNotification } from '@/store/reducers/notificationSlice';
+import { QuizType } from '@/store/reducers/quizFormSlice';
+import AddIcon from '@mui/icons-material/Add';
+import {
+  AppBar,
+  Box,
+  Button,
+  Toolbar,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Navbar = () => {
+  const theme = useTheme();
+  const router = useRouter();
+  const { id } = router.query;
+  const path = router.pathname;
+  const updatedQuiz = useSelector((state: RootState) => state.quizform.quiz);
+  const dispatch = useDispatch();
+
+  const saveQuiz = async () => {
+    try {
+      // call the API method with updated quiz data
+      const response = await axios.put(
+        `/api/update-quiz-by-id?id=${id}`,
+        updatedQuiz
+      );
+      dispatch(
+        addNotification({
+          type: 'success',
+          message: 'Quiz updated successfully',
+        })
+      );
+    } catch (error) {
+      dispatch(
+        addNotification({
+          type: 'error',
+          message: 'An error occurred while updating the quiz',
+        })
+      );
+    }
+  };
+
   return (
     <AppBar position="fixed" sx={{ zIndex: '99999' }}>
       <Toolbar>
@@ -24,6 +68,21 @@ const Navbar = () => {
             {/* <Typography variant="h6" component="div">
               Total 100 Points
             </Typography> */}
+            {path.startsWith('/editquiz/') && (
+              <Button
+                variant="contained"
+                sx={{ ml: 2 }}
+                style={{
+                  backgroundColor: theme.palette.secondary.main,
+                  color: theme.palette.primary.main,
+                }}
+                onClick={() => saveQuiz()}
+              >
+                <Typography variant="button" color={theme.palette.primary.main}>
+                  Save Quiz
+                </Typography>
+              </Button>
+            )}
           </Box>
           <Box sx={{ flexGrow: 1 }} />
         </Box>

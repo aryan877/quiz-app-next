@@ -52,8 +52,8 @@ const Index = () => {
         <Button
           variant="contained"
           startIcon={<AddIcon style={{ color: theme.palette.primary.main }} />}
+          sx={{ mr: 1 }}
           style={{
-            marginRight: '1rem',
             backgroundColor: theme.palette.secondary.main,
             color: theme.palette.primary.main,
           }}
@@ -68,12 +68,11 @@ const Index = () => {
           variant="contained"
           startIcon={<QuizIcon style={{ color: theme.palette.primary.main }} />}
           style={{
-            marginRight: '1rem',
             backgroundColor: theme.palette.secondary.main,
             color: theme.palette.primary.main,
           }}
         >
-          Attempt Quiz
+          Take Quiz
         </Button>
       </div>
 

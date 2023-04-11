@@ -38,6 +38,12 @@ function EditableText({
       onChange={handleNumberChange}
       onBlur={handleNumberBlur}
       InputProps={{ inputProps: { min: 1, required: true } }}
+      sx={{
+        border: 'none',
+        borderRadius: 0,
+        fontSize: fontSize,
+        fontWeight: bold ? 'bold' : '',
+      }}
     />
   );
 }

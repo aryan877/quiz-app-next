@@ -128,10 +128,9 @@ function QuizCard({ quiz }: { quiz: any }) {
         >
           <Typography
             mr={3}
-            variant="h6"
-            component="h3"
             align="left"
-            color="white"
+            variant="h6"
+            color={theme.palette.secondary.main}
           >
             {quiz.title}
           </Typography>
@@ -142,7 +141,7 @@ function QuizCard({ quiz }: { quiz: any }) {
             backgroundColor: theme.palette.secondary.main,
           }}
         >
-          <Typography variant="subtitle2" align="left" color="textPrimary">
+          <Typography align="left" variant="subtitle2">
             {quiz.createdAt && (
               <>
                 Created on{' '}

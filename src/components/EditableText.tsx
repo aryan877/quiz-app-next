@@ -40,8 +40,6 @@ function EditableText({
       variant="standard"
       inputRef={refProp}
       sx={{
-        fontSize: fontSize,
-        fontWeight: 'bold',
         border: 'none',
         borderRadius: 0,
         '& .MuiOutlinedInput-root': {

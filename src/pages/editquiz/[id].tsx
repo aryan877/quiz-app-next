@@ -51,12 +51,6 @@ function EditQuiz() {
   };
 
   useEffect(() => {
-    if (document.documentElement.scrollHeight > window.innerHeight) {
-      window.scrollTo(0, document.documentElement.scrollHeight);
-    }
-  }, [quiz.questions.length]);
-
-  useEffect(() => {
     dispatch(updateQuizTitle(quizTitle));
   }, [quizTitle, dispatch]);
 
@@ -90,6 +84,18 @@ function EditQuiz() {
     };
   }, [router.query.id, dispatch]);
 
+  const isInitiallyRendered = useRef(0);
+
+  useEffect(() => {
+    if (isInitiallyRendered.current < 2) {
+      isInitiallyRendered.current += 1;
+      console.log(isInitiallyRendered);
+      window.scrollTo(0, 0);
+    } else {
+      window.scrollTo(0, document.documentElement.scrollHeight);
+    }
+  }, [quiz]);
+
   return (
     <Box
       sx={{
@@ -98,25 +104,26 @@ function EditQuiz() {
         mt: 4,
       }}
     >
-      <Card sx={{ backgroundColor: '#fff', p: 2, mt: 2, mb: 1 }}>
+      <Card sx={{ backgroundColor: '#fff', px: 2, py: 1, mt: 1, mb: 1 }}>
         <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <EditableText
             textState={quiz.title}
             setTextState={setQuizTitle}
             fontSize={'32px'}
+            bold
             defaultText={quiz.title}
           />
           <EditableText
             textState={quiz.description}
             setTextState={setDescription}
-            fontSize={'24px'}
+            fontSize={'16px'}
             defaultText={quiz.description}
           />
           <Box sx={{ mt: 2 }}>
             <EditableNumber
               setNumberState={setTimeLimit}
               numberState={quiz.timelimit}
-              fontSize={'32px'}
+              fontSize={'16px'}
               label={'Time Limit in Minutes'}
             />
           </Box>

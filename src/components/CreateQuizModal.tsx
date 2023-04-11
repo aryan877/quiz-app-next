@@ -104,7 +104,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
             variant="contained"
             sx={{ ml: 1 }}
           >
-            Cancel
+            <Typography variant="button"> Cancel</Typography>
           </Button>
           <Button
             onClick={addQuiz}
@@ -113,7 +113,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
             disabled={createButtonDisabled}
             sx={{ ml: 1 }}
           >
-            Create
+            <Typography variant="button">Create</Typography>
           </Button>
         </Box>
         {loading && (

@@ -25,6 +25,7 @@ export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   const router = useRouter();
+
   const [bgColor, setBgColor] = useState('#fff');
 
   useEffect(() => {
