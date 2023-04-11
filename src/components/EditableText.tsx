@@ -1,4 +1,5 @@
 import TextField from '@mui/material/TextField';
+import { useState } from 'react';
 interface EditableTextProps {
   defaultText: string;
   setTextState: React.Dispatch<React.SetStateAction<string>>;
@@ -16,13 +17,15 @@ function EditableText({
   bold,
   autoFocus = false,
 }: EditableTextProps) {
+  const [defaultVal, setDefaultVal] = useState(defaultText);
+
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextState(e.target.value);
   };
 
   const handleTextBlur = () => {
     if (textState.trim() === '') {
-      setTextState(defaultText);
+      setTextState(defaultVal);
     }
   };
 
