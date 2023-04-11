@@ -39,6 +39,8 @@ function EditQuiz() {
   const [quizTitle, setQuizTitle] = React.useState(quiz.title);
   const [description, setDescription] = React.useState(quiz.description);
   const [timeLimit, setTimeLimit] = useState<number>(quiz.timelimit);
+  // to autofocus the last element
+  const [lastAddedIndex, setLastAddedIndex] = useState(-1);
 
   const addQuestionHandler = () => {
     const newQuestion = {
@@ -47,6 +49,7 @@ function EditQuiz() {
       points: 1,
       options: [{ id: uuidv4(), title: 'Option', isAnswer: false }],
     };
+    setLastAddedIndex(quiz.questions.length);
     dispatch(addQuestion(newQuestion));
   };
 
@@ -83,18 +86,6 @@ function EditQuiz() {
       dispatch(removeQuiz());
     };
   }, [router.query.id, dispatch]);
-
-  const isInitiallyRendered = useRef(0);
-
-  // useEffect(() => {
-  //   if (isInitiallyRendered.current < 2) {
-  //     isInitiallyRendered.current += 1;
-  //     console.log(isInitiallyRendered);
-  //     window.scrollTo(0, 0);
-  //   } else {
-  //     window.scrollTo(0, document.documentElement.scrollHeight);
-  //   }
-  // }, [quiz]);
 
   return (
     <Box
@@ -139,7 +130,12 @@ function EditQuiz() {
 
       {quiz.questions &&
         quiz.questions.map((question: QuestionType, index: number) => (
-          <Question key={question.id} index={index + 1} question={question} />
+          <Question
+            key={question.id}
+            index={index + 1}
+            question={question}
+            autofocus={index == lastAddedIndex}
+          />
         ))}
 
       <Tooltip title="Add question">

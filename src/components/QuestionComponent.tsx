@@ -28,21 +28,23 @@ import { v4 as uuidv4 } from 'uuid';
 interface Props {
   question: QuestionType;
   index: number;
+  autofocus?: boolean;
 }
 
-function Question({ question, index }: Props) {
+function Question({ question, index, autofocus }: Props) {
   const [questionPrompt, setquestionPrompt] = useState(question.prompt);
   const [questionPoints, setQuestionPoints] = useState<number>(question.points);
-  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
+  const cardRef = useRef<HTMLDivElement>(null);
   const removeQuestionHandler = () => {
     dispatch(removeQuestion(question.id));
   };
+
+  useEffect(() => {
+    if (autofocus && cardRef.current) {
+      cardRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [autofocus]);
 
   const addOptionHandler = () => {
     const newOption = {
@@ -66,7 +68,10 @@ function Question({ question, index }: Props) {
   }, [questionPrompt, question.id, dispatch]);
 
   return (
-    <Card sx={{ my: 2, py: { xs: 0, sm: 1 }, px: { xs: 0, sm: 2 } }}>
+    <Card
+      ref={autofocus ? cardRef : null}
+      sx={{ my: 2, py: { xs: 0, sm: 1 }, px: { xs: 0, sm: 2 } }}
+    >
       <CardContent>
         <Box
           sx={{
@@ -86,7 +91,7 @@ function Question({ question, index }: Props) {
             setTextState={setquestionPrompt}
             defaultText={questionPrompt}
             fontSize={'16px'}
-            // inputRef={inputRef}
+            autoFocus={autofocus}
           />
         </Box>
 
@@ -111,14 +116,6 @@ function Question({ question, index }: Props) {
               mt: 2,
             }}
           >
-            {/* <TextField
-              label="Points"
-              type="number"
-              defaultValue={question.points}
-              InputProps={{ inputProps: { min: 0 } }}
-              sx={{ mr: 1 }}
-            /> */}
-
             <EditableNumber
               setNumberState={setQuestionPoints}
               numberState={question.points}

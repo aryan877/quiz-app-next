@@ -5,6 +5,7 @@ interface EditableTextProps {
   textState: string;
   fontSize: string;
   bold?: boolean;
+  autoFocus?: boolean;
 }
 
 function EditableText({
@@ -13,6 +14,7 @@ function EditableText({
   textState,
   fontSize,
   bold,
+  autoFocus = false,
 }: EditableTextProps) {
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextState(e.target.value);
@@ -29,7 +31,7 @@ function EditableText({
       value={textState}
       onChange={handleTextChange}
       onBlur={handleTextBlur}
-      // autoFocus
+      autoFocus={autoFocus}
       fullWidth
       multiline
       variant="standard"
