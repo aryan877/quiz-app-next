@@ -1,4 +1,4 @@
-import { red } from '@mui/material/colors'; // added import statement
+import { red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 import { Roboto } from '@next/font/google';
 
@@ -20,6 +20,12 @@ const theme = createTheme({
     },
     error: {
       main: red.A400,
+    },
+    info: {
+      main: '#3498db', // Add info color
+    },
+    success: {
+      main: '#27ae60', // Add success color
     },
   },
   typography: {

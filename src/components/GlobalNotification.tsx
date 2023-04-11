@@ -5,6 +5,7 @@ import Snackbar from '@mui/material/Snackbar';
 import { useTheme } from '@mui/material/styles';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref
@@ -31,6 +32,18 @@ function GlobalNotification() {
     };
   }, [dispatch, notification]);
 
+  const alertBackgroundColor =
+    notification?.type === 'success'
+      ? theme.palette.success.main
+      : notification?.type === 'error'
+      ? theme.palette.error.main
+      : theme.palette.info.main;
+
+  const alertColor =
+    notification?.type === 'success' || notification?.type === 'error'
+      ? theme.palette.common.white
+      : undefined;
+
   return (
     <>
       {notification && (
@@ -44,11 +57,8 @@ function GlobalNotification() {
           <Alert
             severity={notification.type}
             sx={{
-              backgroundColor:
-                notification.type === 'error'
-                  ? theme.palette.error.main
-                  : theme.palette.success.main,
-              color: theme.palette.common.white,
+              backgroundColor: alertBackgroundColor,
+              color: alertColor,
               '& .MuiAlert-icon': {
                 marginRight: theme.spacing(1),
               },

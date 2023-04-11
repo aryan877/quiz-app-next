@@ -26,6 +26,12 @@ const Navbar = () => {
   const saveQuiz = async () => {
     try {
       // call the API method with updated quiz data
+      dispatch(
+        addNotification({
+          type: 'info',
+          message: 'Updating quiz...',
+        })
+      );
       const response = await axios.put(
         `/api/update-quiz-by-id?id=${id}`,
         updatedQuiz

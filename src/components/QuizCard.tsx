@@ -34,6 +34,12 @@ function QuizCard({ quiz }: { quiz: any }) {
   };
   const handleDelete = async () => {
     try {
+      dispatch(
+        addNotification({
+          type: 'info',
+          message: 'Deleting quiz...',
+        })
+      );
       const response = await axios.get(`/api/delete-quiz-by-id?id=${quiz.id}`);
       dispatch(
         addNotification({
