@@ -86,7 +86,7 @@ function Question({ question, index }: Props) {
             setTextState={setquestionPrompt}
             defaultText={questionPrompt}
             fontSize={'16px'}
-            refProp={inputRef}
+            // inputRef={inputRef}
           />
         </Box>
 

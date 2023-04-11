@@ -1,13 +1,10 @@
 import TextField from '@mui/material/TextField';
-import { useState } from 'react';
-
 interface EditableTextProps {
   defaultText: string;
   setTextState: React.Dispatch<React.SetStateAction<string>>;
   textState: string;
   fontSize: string;
   bold?: boolean;
-  refProp?: React.RefObject<HTMLInputElement>;
 }
 
 function EditableText({
@@ -16,16 +13,14 @@ function EditableText({
   textState,
   fontSize,
   bold,
-  refProp,
 }: EditableTextProps) {
-  const [initialTextState, setInitialTextState] = useState(defaultText);
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextState(e.target.value);
   };
 
   const handleTextBlur = () => {
     if (textState.trim() === '') {
-      setTextState(initialTextState);
+      setTextState(defaultText);
     }
   };
 
@@ -34,11 +29,10 @@ function EditableText({
       value={textState}
       onChange={handleTextChange}
       onBlur={handleTextBlur}
-      autoFocus
+      // autoFocus
       fullWidth
       multiline
       variant="standard"
-      inputRef={refProp}
       sx={{
         border: 'none',
         borderRadius: 0,
@@ -54,7 +48,7 @@ function EditableText({
         },
         '& .MuiInputBase-root': {
           fontSize: fontSize,
-          fontWeight: bold ? 'bold' : '',
+          fontWeight: bold ? 700 : undefined,
           padding: 0,
           '&:focus': {
             outline: 'none',

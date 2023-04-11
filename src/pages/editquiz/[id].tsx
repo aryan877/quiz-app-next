@@ -86,15 +86,15 @@ function EditQuiz() {
 
   const isInitiallyRendered = useRef(0);
 
-  useEffect(() => {
-    if (isInitiallyRendered.current < 2) {
-      isInitiallyRendered.current += 1;
-      console.log(isInitiallyRendered);
-      window.scrollTo(0, 0);
-    } else {
-      window.scrollTo(0, document.documentElement.scrollHeight);
-    }
-  }, [quiz]);
+  // useEffect(() => {
+  //   if (isInitiallyRendered.current < 2) {
+  //     isInitiallyRendered.current += 1;
+  //     console.log(isInitiallyRendered);
+  //     window.scrollTo(0, 0);
+  //   } else {
+  //     window.scrollTo(0, document.documentElement.scrollHeight);
+  //   }
+  // }, [quiz]);
 
   return (
     <Box
