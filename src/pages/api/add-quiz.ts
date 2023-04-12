@@ -18,7 +18,14 @@ export default async function handler(
     id: uuidv4(),
     title: req.body.title,
     description: 'enter description',
-    questions: [],
+    questions: [
+      {
+        id: uuidv4(),
+        prompt: 'New Question',
+        points: 1,
+        options: [{ id: uuidv4(), title: 'Option', isAnswer: false }],
+      },
+    ],
     updatedAt: Timestamp.fromDate(new Date()),
     timelimit: 10,
   };

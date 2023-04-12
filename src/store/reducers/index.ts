@@ -2,11 +2,13 @@ import { combineReducers } from 'redux';
 import notificationReducer from './notificationSlice';
 import quizCardReducer from './quizCardsSlice';
 import quizFormReducer from './quizFormSlice';
+import quizTestReducer from './quizTestReducer';
 
 const rootReducer = combineReducers({
   quizform: quizFormReducer,
   notification: notificationReducer,
   quizCards: quizCardReducer,
+  quizTestData: quizTestReducer,
   // Add more slices here as needed
 });
 
