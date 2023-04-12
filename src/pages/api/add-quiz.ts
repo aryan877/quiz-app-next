@@ -1,5 +1,5 @@
 // pages/api/addQuiz.js
-import { QuizType } from '@/store/reducers/quizFormSlice';
+import { QuizType } from '@/types/types';
 import {
   addDoc,
   collection,

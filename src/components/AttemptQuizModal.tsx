@@ -1,5 +1,5 @@
 import { RootState } from '@/store/reducers';
-import { QuizInList } from '@/store/reducers/quizCardsSlice';
+import { QuizType } from '@/types/types';
 import { Close, FileCopyOutlined } from '@mui/icons-material';
 import {
   Box,
@@ -25,12 +25,12 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
   openModal,
   setOpenModal,
 }) => {
-  const [selectedQuizId, setSelectedQuizId] = useState<string>(''); // Keep track of the selected quiz id
+  const [selectedQuizId, setSelectedQuizId] = useState<string | undefined>(''); // Keep track of the selected quiz id
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [quizLink, setQuizLink] = useState('');
   const quizzes = useSelector((state: RootState) => state.quizCards.quizzes);
 
-  const handleOptionClick = (quizId: string) => {
+  const handleOptionClick = (quizId: string | undefined) => {
     setSelectedQuizId(quizId); // Set the selected quiz id
   };
 
@@ -109,8 +109,10 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
               variant="body1"
               align="center"
               gutterBottom
+              color="red"
+              fontWeight="bold"
             >
-              Copy link and paste in browser to start attempt
+              Copy and paste link in browser to start attempt
             </Typography>
             <TextField
               sx={{ mt: 1, mb: 2 }}
@@ -131,15 +133,17 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
               <Typography variant="body1">
                 <span style={{ fontWeight: 'bold' }}>quiz title:</span>{' '}
                 {
-                  quizzes.find((quiz: QuizInList) => quiz.id === selectedQuizId)
-                    ?.title
+                  quizzes.find(
+                    (quiz: Partial<QuizType>) => quiz.id === selectedQuizId
+                  )?.title
                 }
               </Typography>
               <Typography variant="body1" sx={{ mb: 2 }}>
                 <span style={{ fontWeight: 'bold' }}>quiz description:</span>{' '}
                 {
-                  quizzes.find((quiz: QuizInList) => quiz.id === selectedQuizId)
-                    ?.description
+                  quizzes.find(
+                    (quiz: Partial<QuizType>) => quiz.id === selectedQuizId
+                  )?.description
                 }
               </Typography>
             </Box>

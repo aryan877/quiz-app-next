@@ -1,4 +1,4 @@
-import { QuizType } from '@/store/reducers/quizFormSlice';
+import { QuizType } from '@/types/types';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import 'firebase/firestore';

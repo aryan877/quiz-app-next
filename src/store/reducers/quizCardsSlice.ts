@@ -1,40 +1,47 @@
+import { QuizType } from '@/types/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Timestamp } from 'firebase/firestore';
 
-export interface QuizInList {
-  id: string;
-  title: string;
-  updatedAt: Timestamp;
-  description: string;
+// Define the shape of the state
+interface QuizState {
+  quizzes: Partial<QuizType>[];
 }
 
-export interface QuizListState {
-  quizzes: QuizInList[];
-}
-
-const initialState: QuizListState = {
+// Initialize the state
+const initialState: QuizState = {
   quizzes: [],
 };
 
+// Create the slice
 const quizCardSlice = createSlice({
   name: 'quiz',
   initialState,
   reducers: {
-    addQuizCardsData: (state, action: PayloadAction<QuizInList[]>) => {
+    addQuizCardsData: (state, action: PayloadAction<Partial<QuizType>[]>) => {
+      // Update the state with the new quizzes
       state.quizzes = action.payload;
     },
-    removeQuizCardDatabyId: (state, action: PayloadAction<string>) => {
-      state.quizzes = state.quizzes.filter(
-        (quiz) => quiz.id !== action.payload
-      );
+    removeQuizCardDatabyId: (
+      state,
+      action: PayloadAction<string | undefined>
+    ) => {
+      // Filter out the quiz with the given id
+      if (action.payload) {
+        state.quizzes = state.quizzes.filter(
+          (quiz) => quiz.id !== action.payload
+        );
+      }
     },
     removeQuizCardsData: (state) => {
+      // Clear all the quizzes
       state.quizzes = [];
     },
   },
 });
 
+// Export the action creators
 export const { addQuizCardsData, removeQuizCardDatabyId, removeQuizCardsData } =
   quizCardSlice.actions;
 
+// Export the reducer
 export default quizCardSlice.reducer;

@@ -1,4 +1,4 @@
-import { QuizType } from '@/store/reducers/quizFormSlice';
+import { QuizType } from '@/types/types';
 import {
   collection,
   doc,

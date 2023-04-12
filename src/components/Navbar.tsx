@@ -1,6 +1,6 @@
 import { RootState } from '@/store/reducers';
 import { addNotification } from '@/store/reducers/notificationSlice';
-import { QuizType } from '@/store/reducers/quizFormSlice';
+import { QuizType } from '@/types/types';
 import AddIcon from '@mui/icons-material/Add';
 import {
   AppBar,

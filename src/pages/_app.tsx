@@ -35,6 +35,8 @@ export default function MyApp(props: MyAppProps) {
         document.body.style.backgroundColor = '#f0f0f0';
       } else if (path === '/') {
         document.body.style.backgroundColor = '#d3e7f5';
+      } else if (path.startsWith('/startquiz/')) {
+        document.body.style.backgroundColor = '#d3e7f5';
       }
     };
     handleRouteChange(); // initial route

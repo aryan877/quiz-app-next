@@ -3,12 +3,11 @@ import EditableText from '@/components/EditableText';
 import Option from '@/components/OptionComponent';
 import {
   addOption,
-  OptionType,
-  QuestionType,
   removeQuestion,
   updateQuestionPoints,
   updateQuestionPrompt,
 } from '@/store/reducers/quizFormSlice';
+import { OptionType, QuestionType } from '@/types/types';
 import { Delete } from '@mui/icons-material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {

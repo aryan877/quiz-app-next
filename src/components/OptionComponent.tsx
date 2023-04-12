@@ -1,9 +1,9 @@
 import {
-  OptionType,
   removeOption,
   updateOptionIsAnswer,
   updateOptionTitle,
 } from '@/store/reducers/quizFormSlice';
+import { OptionType } from '@/types/types';
 import { Close } from '@mui/icons-material';
 import { Checkbox, Grid, IconButton, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';

@@ -4,14 +4,13 @@ import Question from '@/components/QuestionComponent';
 import { RootState } from '@/store/reducers';
 import {
   addQuestion,
-  QuestionType,
-  QuizType,
   removeQuiz,
   setQuiz,
   updateQuizDescription,
   updateQuizTimeLimit,
   updateQuizTitle,
 } from '@/store/reducers/quizFormSlice';
+import { QuestionType, QuizType } from '@/types/types';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import {

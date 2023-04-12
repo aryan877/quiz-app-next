@@ -11,7 +11,7 @@ import { db } from '../../../firebase/firebase';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<QuizType[] | {}>
+  res: NextApiResponse<Partial<QuizType> | { message: string }>
 ) {
   const quizId = req.query.id as string;
 
@@ -27,21 +27,18 @@ export default async function handler(
 
     const quizData = quizDocs.docs[0].data() as QuizType;
 
-    // modify quizData to make all isAnswer values false
-    const modifiedQuestions = quizData.questions.map((question) => {
-      const modifiedOptions = question.options.map((option) => ({
-        ...option,
-        isAnswer: false,
-      }));
-      return {
-        ...question,
-        options: modifiedOptions,
-      };
-    });
+    // calculate total points
+    const totalPoints = quizData.questions.reduce(
+      (total, question) => total + question.points,
+      0
+    );
 
-    const modifiedQuizData = {
-      ...quizData,
-      questions: modifiedQuestions,
+    const modifiedQuizData: Partial<QuizType> = {
+      id: quizData.id,
+      description: quizData.description,
+      title: quizData.title,
+      timelimit: quizData.timelimit,
+      points: totalPoints,
     };
 
     res.status(200).json(modifiedQuizData);

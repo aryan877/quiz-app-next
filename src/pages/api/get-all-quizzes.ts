@@ -1,11 +1,11 @@
-import { QuizInList } from '@/store/reducers/quizCardsSlice';
+import { QuizType } from '@/types/types';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../firebase/firebase';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<QuizInList[] | {}>
+  res: NextApiResponse<Partial<QuizType>[] | { message: string }>
 ) {
   try {
     const quizCollection = collection(db, 'quizzes');

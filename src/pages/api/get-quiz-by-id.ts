@@ -7,7 +7,7 @@ import {
 } from 'firebase/firestore';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { QuizType } from '@/store/reducers/quizFormSlice';
+import { QuizType } from '@/types/types';
 import { db } from '../../../firebase/firebase';
 export default async function handler(
   req: NextApiRequest,
