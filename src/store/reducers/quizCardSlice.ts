@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Timestamp } from 'firebase/firestore';
 
 interface QuizInList {
-  id: number;
-  name: string;
+  id: string;
+  title: string;
   createdAt: Timestamp;
 }
 
@@ -15,14 +15,14 @@ const initialState: QuizListState = {
   quizzes: [],
 };
 
-const quizSlice = createSlice({
+const quizCardSlice = createSlice({
   name: 'quiz',
   initialState,
   reducers: {
-    addQuizzesList: (state, action: PayloadAction<QuizInList[]>) => {
+    addQuizCardsData: (state, action: PayloadAction<QuizInList[]>) => {
       state.quizzes = action.payload;
     },
-    removeQuizByIdinList: (state, action: PayloadAction<number>) => {
+    removeQuizCardDatabyId: (state, action: PayloadAction<string>) => {
       state.quizzes = state.quizzes.filter(
         (quiz) => quiz.id !== action.payload
       );
@@ -30,6 +30,7 @@ const quizSlice = createSlice({
   },
 });
 
-export const { addQuizzesList, removeQuizByIdinList } = quizSlice.actions;
+export const { addQuizCardsData, removeQuizCardDatabyId } =
+  quizCardSlice.actions;
 
-export default quizSlice.reducer;
+export default quizCardSlice.reducer;

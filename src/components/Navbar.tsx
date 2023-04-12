@@ -29,7 +29,7 @@ const Navbar = () => {
       dispatch(
         addNotification({
           type: 'info',
-          message: 'Updating quiz...',
+          message: 'Saving quiz...',
         })
       );
       const response = await axios.put(
@@ -39,7 +39,7 @@ const Navbar = () => {
       dispatch(
         addNotification({
           type: 'success',
-          message: 'Quiz updated successfully',
+          message: 'Quiz saved successfully',
         })
       );
     } catch (error) {

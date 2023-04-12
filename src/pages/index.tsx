@@ -1,7 +1,9 @@
+import AttemptQuizModal from '@/components/AttemptQuizModal';
 import CreateQuizModal from '@/components/CreateQuizModal';
 import QuizCard from '@/components/QuizCard';
 import { RootState } from '@/store/reducers';
-import { addQuizzesList } from '@/store/reducers/quizIndexSlice';
+import { addNotification } from '@/store/reducers/notificationSlice';
+import { addQuizCardsData } from '@/store/reducers/quizCardSlice';
 import AddIcon from '@mui/icons-material/Add';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
@@ -9,26 +11,32 @@ import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 const Index = () => {
   //states
-  const [openModal, setOpenModal] = useState(false);
+  const [openCreateQuizModal, setOpenCreateQuizModal] = useState(false);
+  const [openAttemptQuizModal, setOpenAttemptQuizModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
   //states
   //hooks
   const theme = useTheme();
   const dispatch = useDispatch();
-  const quizzes = useSelector((state: RootState) => state.quizIndex.quizzes);
+  const quizzes = useSelector((state: RootState) => state.quizCards.quizzes);
   useEffect(() => {
     const fetchQuizzes = async () => {
       setLoading(true);
       setError(null);
       try {
         const response = await axios.get('/api/get-all-quizzes');
-        dispatch(addQuizzesList(response.data));
+        dispatch(addQuizCardsData(response.data));
       } catch (error) {
         setError(error);
+        dispatch(
+          addNotification({
+            type: 'error',
+            message: 'An error occurred while fetching quizzes',
+          })
+        );
         console.error(error);
       } finally {
         setLoading(false);
@@ -40,7 +48,7 @@ const Index = () => {
   //render
   return (
     <Box sx={{ my: 4, width: '100%' }}>
-      {/* buttons to create and take quiz */}
+      {/* buttons to create and Take Test */}
       <div
         style={{
           display: 'flex',
@@ -57,12 +65,20 @@ const Index = () => {
             backgroundColor: theme.palette.secondary.main,
             color: theme.palette.primary.main,
           }}
-          onClick={() => setOpenModal(true)}
+          onClick={() => setOpenCreateQuizModal(true)}
         >
           Create Quiz
         </Button>
         {/* Modal To Create The the Quiz */}
-        <CreateQuizModal openModal={openModal} setOpenModal={setOpenModal} />
+        <CreateQuizModal
+          openModal={openCreateQuizModal}
+          setOpenModal={setOpenCreateQuizModal}
+        />
+        {/* Modal To Attempt The the Quiz */}
+        <AttemptQuizModal
+          openModal={openAttemptQuizModal}
+          setOpenModal={setOpenAttemptQuizModal}
+        />
         {/* Button To Take the Quiz */}
         <Button
           variant="contained"
@@ -71,8 +87,9 @@ const Index = () => {
             backgroundColor: theme.palette.secondary.main,
             color: theme.palette.primary.main,
           }}
+          onClick={() => setOpenAttemptQuizModal(true)}
         >
-          Take Quiz
+          Take Test
         </Button>
       </div>
 

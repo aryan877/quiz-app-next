@@ -1,6 +1,6 @@
 import { addNotification } from '@/store/reducers/notificationSlice';
+import { removeQuizCardDatabyId } from '@/store/reducers/quizCardSlice';
 import { QuizType } from '@/store/reducers/quizFormSlice';
-import { removeQuizByIdinList } from '@/store/reducers/quizIndexSlice';
 import { Delete, Edit } from '@mui/icons-material';
 import { default as MoreVertIcon } from '@mui/icons-material/MoreVert';
 import {
@@ -47,7 +47,7 @@ function QuizCard({ quiz }: { quiz: any }) {
           message: 'Quiz deleted successfully',
         })
       );
-      dispatch(removeQuizByIdinList(quiz.id));
+      dispatch(removeQuizCardDatabyId(quiz.id));
     } catch (error) {
       console.error(error);
       dispatch(
