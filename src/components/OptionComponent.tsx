@@ -1,3 +1,6 @@
+import Question from '@/components/QuestionComponent';
+import { RootState } from '@/store/reducers';
+import { addNotification } from '@/store/reducers/notificationSlice';
 import {
   removeOption,
   updateOptionIsAnswer,
@@ -7,9 +10,8 @@ import { OptionType } from '@/types/types';
 import { Close } from '@mui/icons-material';
 import { Checkbox, Grid, IconButton, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import EditableText from './EditableText';
-
 function Option({
   option,
   questionId,
@@ -25,8 +27,24 @@ function Option({
     setChecked(event.target.checked);
   };
 
+  const options = useSelector((state: RootState) => {
+    const question = state.quizform.quiz.questions.find(
+      (q) => q.id === questionId
+    );
+    return question ? question.options : [];
+  });
+
   const removeOptionHandler = () => {
-    dispatch(removeOption({ questionId: questionId, optionId: option.id }));
+    if (options.length > 1) {
+      dispatch(removeOption({ questionId: questionId, optionId: option.id }));
+    } else {
+      dispatch(
+        addNotification({
+          type: 'error',
+          message: 'You need to set at least one option',
+        })
+      );
+    }
   };
 
   useEffect(() => {

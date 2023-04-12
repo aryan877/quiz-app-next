@@ -45,7 +45,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
     }
   };
 
-  const createButtonDisabled = quizName.length < 1;
+  const createButtonDisabled = quizName.trim().length < 1;
 
   return (
     <Modal

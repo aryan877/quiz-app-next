@@ -1,6 +1,8 @@
 import { default as EditableNumber } from '@/components/EditableNumber';
 import EditableText from '@/components/EditableText';
 import Option from '@/components/OptionComponent';
+import { RootState } from '@/store/reducers';
+import { addNotification } from '@/store/reducers/notificationSlice';
 import {
   addOption,
   removeQuestion,
@@ -35,8 +37,22 @@ function Question({ question, index, autofocus }: Props) {
   const [questionPoints, setQuestionPoints] = useState<number>(question.points);
   const dispatch = useDispatch();
   const cardRef = useRef<HTMLDivElement>(null);
+
+  const questions = useSelector(
+    (state: RootState) => state.quizform.quiz.questions
+  );
+
   const removeQuestionHandler = () => {
-    dispatch(removeQuestion(question.id));
+    if (questions.length > 1) {
+      dispatch(removeQuestion(question.id));
+    } else {
+      dispatch(
+        addNotification({
+          type: 'error',
+          message: 'You need to have at least one question',
+        })
+      );
+    }
   };
 
   useEffect(() => {
