@@ -4,7 +4,10 @@ import ModalWrapper from '@/components/ModalWrapper';
 import QuizCard from '@/components/QuizCard';
 import { RootState } from '@/store/reducers';
 import { addNotification } from '@/store/reducers/notificationSlice';
-import { addQuizCardsData } from '@/store/reducers/quizCardSlice';
+import {
+  addQuizCardsData,
+  removeQuizCardsData,
+} from '@/store/reducers/quizCardsSlice';
 import AddIcon from '@mui/icons-material/Add';
 import QuizIcon from '@mui/icons-material/Quiz';
 import {
@@ -51,7 +54,12 @@ const Index = () => {
       }
     };
     fetchQuizzes();
+
+    return () => {
+      dispatch(removeQuizCardsData());
+    };
   }, [dispatch]);
+
   //hooks
   //render
   return (

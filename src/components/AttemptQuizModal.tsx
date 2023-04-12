@@ -1,5 +1,5 @@
 import { RootState } from '@/store/reducers';
-import { QuizInList } from '@/store/reducers/quizCardSlice';
+import { QuizInList } from '@/store/reducers/quizCardsSlice';
 import { Close, FileCopyOutlined } from '@mui/icons-material';
 import {
   Box,

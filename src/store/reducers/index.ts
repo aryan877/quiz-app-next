@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import notificationReducer from './notificationSlice';
-import quizCardReducer from './quizCardSlice';
+import quizCardReducer from './quizCardsSlice';
 import quizFormReducer from './quizFormSlice';
 
 const rootReducer = combineReducers({

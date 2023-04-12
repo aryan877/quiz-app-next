@@ -4,7 +4,7 @@ import { Timestamp } from 'firebase/firestore';
 export interface QuizInList {
   id: string;
   title: string;
-  createdAt: Timestamp;
+  updatedAt: Timestamp;
   description: string;
 }
 
@@ -28,10 +28,13 @@ const quizCardSlice = createSlice({
         (quiz) => quiz.id !== action.payload
       );
     },
+    removeQuizCardsData: (state) => {
+      state.quizzes = [];
+    },
   },
 });
 
-export const { addQuizCardsData, removeQuizCardDatabyId } =
+export const { addQuizCardsData, removeQuizCardDatabyId, removeQuizCardsData } =
   quizCardSlice.actions;
 
 export default quizCardSlice.reducer;

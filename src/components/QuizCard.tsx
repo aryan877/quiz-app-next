@@ -1,5 +1,8 @@
 import { addNotification } from '@/store/reducers/notificationSlice';
-import { removeQuizCardDatabyId } from '@/store/reducers/quizCardSlice';
+import {
+  QuizInList,
+  removeQuizCardDatabyId,
+} from '@/store/reducers/quizCardsSlice';
 import { QuizType } from '@/store/reducers/quizFormSlice';
 import { Delete, Edit } from '@mui/icons-material';
 import { default as MoreVertIcon } from '@mui/icons-material/MoreVert';
@@ -18,7 +21,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-function QuizCard({ quiz, index }: { quiz: any; index: number }) {
+function QuizCard({ quiz, index }: { quiz: QuizInList; index: number }) {
   //hooks
   const theme = useTheme();
   const dispatch = useDispatch();

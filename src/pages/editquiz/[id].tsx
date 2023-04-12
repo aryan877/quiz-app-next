@@ -79,7 +79,6 @@ function EditQuiz() {
     };
 
     if (router.query.id) {
-      console.log(router.query.id);
       fetchQuiz();
     }
     return () => {

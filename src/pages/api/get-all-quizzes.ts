@@ -1,4 +1,4 @@
-import { QuizInList } from '@/store/reducers/quizCardSlice';
+import { QuizInList } from '@/store/reducers/quizCardsSlice';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../firebase/firebase';
