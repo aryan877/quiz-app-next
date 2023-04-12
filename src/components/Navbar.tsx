@@ -66,7 +66,7 @@ const Navbar = () => {
           <Link href="/">
             <Box sx={{ flexGrow: 0, p: 1 }}>
               <Typography variant="h6" component="div">
-                Quizzy
+                QuizMaker
               </Typography>
             </Box>
           </Link>
