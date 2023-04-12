@@ -4,11 +4,11 @@ import axios from 'axios';
 import 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import { useRouter } from 'next/router';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 type CreateQuizModalProps = {
   openModal: boolean;
-  setOpenModal: any;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 // Create Quiz Modal
@@ -27,7 +27,7 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
   const handleQuizNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuizName(event.target.value);
   };
-
+  
   const quiz: QuizType = {
     id: uuidv4(),
     title: quizName,

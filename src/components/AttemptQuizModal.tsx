@@ -8,18 +8,12 @@ import {
   Modal,
   Typography,
 } from '@mui/material';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 type AttemptQuizModalProps = {
   openModal: boolean;
-  setOpenModal: any;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
-// {quizzes.map((quiz) => (
-//   <Grid key={quiz.id} item>
-//     <QuizCard quiz={quiz} />
-//   </Grid>
-// ))}
 
 const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
   openModal,
@@ -31,19 +25,6 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
     setSelectedOption(option); // Set the selected option
     setOpenModal(false); // Close the modal
   };
-
-  // const options = [
-  //   'Option 1',
-  //   'Option 2',
-  //   'Option 3',
-  //   'Option 4',
-  //   'Option 5',
-  //   'Option 6',
-  //   'Option 7',
-  //   'Option 8',
-  //   'Option 9',
-  //   'Option 10',
-  // ];
 
   return (
     <Modal
@@ -83,10 +64,7 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
               key={quiz.id}
               onClick={() => handleOptionClick(quiz.id)}
             >
-              <ListItemText
-                primary={quiz.title}
-                sx={{ '&:hover': { backgroundColor: 'action.hover' } }}
-              />
+              <ListItemText primary={quiz.title} />
             </ListItemButton>
           ))}
         </List>

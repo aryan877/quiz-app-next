@@ -1,12 +1,20 @@
 import AttemptQuizModal from '@/components/AttemptQuizModal';
 import CreateQuizModal from '@/components/CreateQuizModal';
+import ModalWrapper from '@/components/ModalWrapper';
 import QuizCard from '@/components/QuizCard';
 import { RootState } from '@/store/reducers';
 import { addNotification } from '@/store/reducers/notificationSlice';
 import { addQuizCardsData } from '@/store/reducers/quizCardSlice';
 import AddIcon from '@mui/icons-material/Add';
 import QuizIcon from '@mui/icons-material/Quiz';
-import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Modal,
+  Typography,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -70,15 +78,19 @@ const Index = () => {
           Create Quiz
         </Button>
         {/* Modal To Create The the Quiz */}
-        <CreateQuizModal
-          openModal={openCreateQuizModal}
-          setOpenModal={setOpenCreateQuizModal}
-        />
+        <ModalWrapper openModal={openCreateQuizModal}>
+          <CreateQuizModal
+            openModal={openCreateQuizModal}
+            setOpenModal={setOpenCreateQuizModal}
+          />
+        </ModalWrapper>
         {/* Modal To Attempt The the Quiz */}
-        <AttemptQuizModal
-          openModal={openAttemptQuizModal}
-          setOpenModal={setOpenAttemptQuizModal}
-        />
+        <ModalWrapper openModal={openAttemptQuizModal}>
+          <AttemptQuizModal
+            openModal={openAttemptQuizModal}
+            setOpenModal={setOpenAttemptQuizModal}
+          />
+        </ModalWrapper>
         {/* Button To Take the Quiz */}
         <Button
           variant="contained"
