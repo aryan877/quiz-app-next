@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-function QuizCard({ quiz }: { quiz: any }) {
+function QuizCard({ quiz, index }: { quiz: any; index: number }) {
   //hooks
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -138,7 +138,7 @@ function QuizCard({ quiz }: { quiz: any }) {
             variant="h6"
             color={theme.palette.secondary.main}
           >
-            {quiz.title}
+            #{index + 1} {quiz.title}
           </Typography>
         </Box>
         <Box

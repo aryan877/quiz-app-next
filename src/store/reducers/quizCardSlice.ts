@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Timestamp } from 'firebase/firestore';
 
-interface QuizInList {
+export interface QuizInList {
   id: string;
   title: string;
   createdAt: Timestamp;
+  description: string;
 }
 
-interface QuizListState {
+export interface QuizListState {
   quizzes: QuizInList[];
 }
 
