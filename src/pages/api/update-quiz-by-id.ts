@@ -5,6 +5,7 @@ import {
   getDocs,
   getFirestore,
   query,
+  Timestamp,
   updateDoc,
   where,
 } from 'firebase/firestore';
@@ -34,6 +35,7 @@ export default async function handler(
     const updatedQuizData: any = {
       ...quizData,
       ...req.body,
+      updatedAt: Timestamp.fromDate(new Date()),
     };
 
     await updateDoc(quizRef, updatedQuizData);

@@ -2,10 +2,9 @@ import { QuizType } from '@/store/reducers/quizFormSlice';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import 'firebase/firestore';
-import { Timestamp } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import React, { FC, useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+
 type CreateQuizModalProps = {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,20 +26,11 @@ const CreateQuizModal: FC<CreateQuizModalProps> = ({
   const handleQuizNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuizName(event.target.value);
   };
-  
-  const quiz: QuizType = {
-    id: uuidv4(),
-    title: quizName,
-    description: 'enter description',
-    questions: [],
-    createdAt: Timestamp.fromDate(new Date()),
-    timelimit: 10,
-  };
 
   const addQuiz = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.post('/api/add-quiz', quiz);
+      const { data } = await axios.post('/api/add-quiz', { title: quizName });
       setIsSuccess(true);
       setLoading(false);
       setTimeout(() => {

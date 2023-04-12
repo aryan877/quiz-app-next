@@ -21,9 +21,10 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
 }) => {
   const [selectedOption, setSelectedOption] = useState<string>(''); // Keep track of the selected option
   const quizzes = useSelector((state: RootState) => state.quizCards.quizzes);
+
   const handleOptionClick = (option: string) => {
     setSelectedOption(option); // Set the selected option
-    setOpenModal(false); // Close the modal
+    // setOpenModal(false); // Close the modal
   };
 
   return (

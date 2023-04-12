@@ -147,11 +147,11 @@ function QuizCard({ quiz }: { quiz: any }) {
             backgroundColor: theme.palette.secondary.main,
           }}
         >
-          <Typography align="left" variant="subtitle2">
-            {quiz.createdAt && (
+          <Typography align="left" variant="body2">
+            {quiz.updatedAt && (
               <>
-                Created on{' '}
-                {new Date(quiz.createdAt.seconds * 1000).toLocaleString(
+                Last updated{' '}
+                {new Date(quiz.updatedAt.seconds * 1000).toLocaleString(
                   'en-US'
                 )}
               </>

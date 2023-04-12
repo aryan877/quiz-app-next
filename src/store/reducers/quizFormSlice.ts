@@ -20,7 +20,7 @@ export interface QuizType {
   timelimit: number;
   description: string;
   questions: QuestionType[];
-  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }
 
 export interface QuizState {
