@@ -21,9 +21,8 @@ const Navbar = () => {
   const theme = useTheme();
   const router = useRouter();
   const { id } = router.query;
-  const path = router.pathname;
   const updatedQuiz = useSelector((state: RootState) => state.quizform.quiz);
-  const quiz = useSelector((state: RootState) => state.quizTestData.quiz);
+
   const dispatch = useDispatch();
   const currentPath = useSelector(
     (state: RootState) => state.currentPath.currentPath
@@ -121,7 +120,7 @@ const Navbar = () => {
           </Grid>
           <Grid item>
             {currentPath === 'quiz_take' && (
-              <QuizTimer minutes={quiz.timelimit}></QuizTimer>
+              <QuizTimer></QuizTimer>
             )}
           </Grid>
         </Grid>
