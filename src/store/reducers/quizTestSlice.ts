@@ -47,9 +47,12 @@ const quizTestSlice = createSlice({
 
       state.currentQuestion = state.quiz.questions[questionIndex];
     },
-
     setCurrentQuestion: (state, action) => {
-      const { id } = action.payload;
+      const { id } = action.payload || {};
+      if (!id) {
+        state.currentQuestion = null;
+        return;
+      }
       const questionIndex = state.quiz.questions.findIndex((q) => q.id === id);
       state.currentQuestion = state.quiz.questions[questionIndex];
     },

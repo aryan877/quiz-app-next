@@ -62,7 +62,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { v4 as uuidv4 } from 'uuid';
 function QuizTaker() {
   const router = useRouter();
   const quiz = useSelector((state: RootState) => state.quizTestData.quiz);
@@ -115,6 +115,12 @@ function QuizTaker() {
       dispatch(setCurrentQuestion(quiz.questions[0]));
     }
   }, [dispatch, quiz, currentQuestion]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setCurrentQuestion(null));
+    };
+  }, [dispatch]);
 
   const handleOptionChange = (question: QuestionType, optionId: string) => {
     dispatch(selectAnswer({ questionId: question.id, answerId: optionId }));
