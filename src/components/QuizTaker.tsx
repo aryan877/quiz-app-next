@@ -91,6 +91,8 @@ function QuizTaker() {
     0
   );
 
+  const points = quiz.questions[questionIndex - 1]?.points || 1;
+
   //fetch quiz data
   useEffect(() => {
     async function fetchQuiz() {
@@ -135,12 +137,17 @@ function QuizTaker() {
       {currentQuestion && (
         <Card sx={{ p: 4 }}>
           <CardContent>
-            <Typography variant="body1">
-              {questionIndex}. {currentQuestion.prompt}
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 2 }}>
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
               Question {questionIndex}/{quiz.questions.length}
             </Typography>
+            <Typography variant="body1" sx={{ ml: 0 }}>
+              {currentQuestion.prompt}
+            </Typography>
+
+            <Typography variant="body2" sx={{ mt: 2 }}>
+              {points} {points > 1 ? 'points' : 'point'}
+            </Typography>
+
             <FormControl component="fieldset" sx={{ mt: 2 }}>
               <RadioGroup name={`question-${currentQuestion.id}`}>
                 {currentQuestion.options.map((option) => (
@@ -152,7 +159,7 @@ function QuizTaker() {
                     checked={option.isAnswer}
                     onClick={() =>
                       handleOptionChange(currentQuestion, option.id)
-                    } // Always call the custom handler on click
+                    }
                   />
                 ))}
               </RadioGroup>
@@ -166,7 +173,7 @@ function QuizTaker() {
             <Button
               variant="contained"
               color="primary"
-              // disabled={!currentQuestion.canMovePrev}
+              disabled={questionIndex - 1 === 0}
               onClick={handlePrevClick}
             >
               Previous
@@ -174,7 +181,7 @@ function QuizTaker() {
             <Button
               variant="contained"
               color="primary"
-              // disabled={!currentQuestion.canMoveNext}
+              disabled={questionIndex === quiz.questions.length}
               onClick={handleNextClick}
               sx={{ ml: 2 }}
             >

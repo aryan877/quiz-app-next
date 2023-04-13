@@ -14,6 +14,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 type AttemptQuizModalProps = {
@@ -29,7 +30,7 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [quizLink, setQuizLink] = useState('');
   const quizzes = useSelector((state: RootState) => state.quizCards.quizzes);
-
+  const router = useRouter();
   const handleOptionClick = (quizId: string | undefined) => {
     setSelectedQuizId(quizId); // Set the selected quiz id
   };
@@ -52,6 +53,10 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
     setIsSnackbarOpen(false);
     setOpenModal(false);
     setSelectedQuizId('');
+  };
+
+  const handleStartTest = () => {
+    router.push(`/startquiz/${selectedQuizId}`);
   };
 
   useEffect(() => {
@@ -112,7 +117,7 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
               color="red"
               fontWeight="bold"
             >
-              Copy and paste link in browser to start attempt
+              Copy to share link OR open test from link below
             </Typography>
             <TextField
               sx={{ mt: 1, mb: 2 }}
@@ -128,6 +133,7 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
                 ),
               }}
             />
+            <Button onClick={handleStartTest}>Open Link</Button>
             <Divider></Divider>
             <Box sx={{ px: 3, mt: 2 }}>
               <Typography variant="body1">

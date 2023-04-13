@@ -129,7 +129,7 @@ const Index = () => {
             <CircularProgress color="primary" />
           </div>
         ) : (
-          <Grid container spacing={1} sx={{ justifyContent: 'start' }}>
+          <Grid container spacing={2} sx={{ justifyContent: 'start' }}>
             {quizzes.map((quiz, index) => (
               <Grid key={quiz.id} item>
                 <QuizCard quiz={quiz} index={index} />

@@ -1,7 +1,6 @@
 import { default as QuizTaker } from '@/components/QuizTaker';
 import { QuizType } from '@/types/types';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { Box, Button, Card, CardContent, Typography } from '@mui/material';
+import { Box, Button, Card, Divider, Typography } from '@mui/material';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -44,68 +43,73 @@ function StartQuiz() {
     return (
       <Box
         sx={{
-          maxWidth: 'md',
-          width: '100%',
           mt: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
         }}
       >
-        <Typography
-          variant="h4"
-          textAlign="center"
-          fontWeight="bold"
-          gutterBottom
-        >
-          Attempt Quiz
-        </Typography>
-        <Card sx={{ minWidth: 275, p: 2 }}>
-          <CardContent>
-            <Typography variant="h5" gutterBottom>
-              <span style={{ fontWeight: 'bold' }}>Quiz Title:</span>{' '}
-              {quizData.title}
-            </Typography>
-            <Typography variant="h6" sx={{ mt: 2 }} gutterBottom>
-              <span style={{ fontWeight: 'bold' }}>Total Points:</span>{' '}
+        <Card sx={{ p: 4 }}>
+          <Typography variant="h4" fontWeight="bold" gutterBottom>
+            {quizData.title}
+          </Typography>
+          <Divider sx={{ width: '100%', mb: 2 }} />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              width: '100%',
+              p: 2,
+            }}
+          >
+            <Typography variant="body1">
+              <Box fontWeight="bold" component="span">
+                Total Points:
+              </Box>{' '}
               {quizData.points}
             </Typography>
-            <Typography variant="body1" sx={{ mt: 2 }}>
-              <span style={{ fontWeight: 'bold' }}>Quiz Description: </span>{' '}
+            <Typography variant="body1">
+              <Box fontWeight="bold" component="span">
+                Quiz Description:
+              </Box>{' '}
               {quizData.description}
             </Typography>
-
-            <Typography
-              variant="body1"
-              sx={{ mt: 2, display: 'flex', alignItems: 'center' }}
+            <Typography variant="body1">
+              <Box fontWeight="bold" component="span">
+                Time Limit:
+              </Box>{' '}
+              {quizData.timelimit} minutes
+            </Typography>
+            <Typography variant="body1" sx={{ mt: 2 }}>
+              <Box fontWeight="bold" component="span">
+                Instructions:
+              </Box>
+            </Typography>
+            <Typography variant="body1" color="red">
+              - Once you press Start Quiz, the quiz will begin.
+            </Typography>
+            <Typography variant="body1" color="red">
+              - You will have {quizData.timelimit} minutes to complete the quiz.
+            </Typography>
+            <Typography variant="body1" color="red">
+              - Press Submit to end the test and see your results.
+            </Typography>
+            <Typography variant="body1" color="red">
+              - The quiz will end automatically when the time is up.
+            </Typography>
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              onClick={handleStartQuiz}
+              sx={{ mt: 2 }}
             >
-              <span style={{ fontWeight: 'bold' }}>Time Limit:&nbsp;</span>
-              {quizData.timelimit} minutes <AccessTimeIcon sx={{ ml: 1 }} />
-            </Typography>
-
-            <Typography variant="body1" component="p" sx={{ mt: 2 }}>
-              <span style={{ fontWeight: 'bold' }}>Instructions:</span>{' '}
-              <span
-                style={{ color: 'red', fontSize: '1.1rem', fontWeight: 'bold' }}
-              >
-                Once you press Start Quiz, the quiz will begin. You will have{' '}
-                {quizData.timelimit} minutes to complete the quiz. Press Submit
-                to end the test and see your results. The quiz will end
-                automatically when the time is up.
-              </span>
-            </Typography>
-          </CardContent>
+              Start Quiz
+            </Button>
+          </Box>
         </Card>
-        {/* <Link href={`/s`}> */}
-        <Box sx={{ mt: 2 }}>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            onClick={handleStartQuiz}
-            sx={{ fontSize: '1.1rem', fontWeight: 'bold' }}
-          >
-            Start Quiz
-          </Button>
-        </Box>
-        {/* </Link> */}
       </Box>
     );
   }
