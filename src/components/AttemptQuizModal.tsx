@@ -14,9 +14,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/router';
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+
 type AttemptQuizModalProps = {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,6 +41,7 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
     setSelectedQuizId(''); // Reset the selected quiz id
     setIsSnackbarOpen(false);
   };
+  const theme = useTheme();
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(quizLink);
@@ -117,7 +120,11 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
               color="red"
               fontWeight="bold"
             >
-              Copy to share link OR open test from link below
+              Copy to share link{' '}
+              <Box component="span" sx={{ color: theme.palette.primary.dark }}>
+                OR
+              </Box>{' '}
+              open test from link below
             </Typography>
             <TextField
               sx={{ mt: 1, mb: 2 }}
