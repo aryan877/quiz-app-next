@@ -24,7 +24,7 @@ function QuizTimer() {
   }, [minutes]);
 
   useEffect(() => {
-    if (timeLeft === 0) {
+    if (timeLeft <= 0) {
       router.push('/result');
     }
   }, [timeLeft, router]);
