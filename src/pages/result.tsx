@@ -1,4 +1,5 @@
 import { RootState } from '@/store/reducers';
+import { setQuizTestData } from '@/store/reducers/quizTestSlice';
 import {
   Box,
   Card,
@@ -9,8 +10,8 @@ import {
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 type ResultItem = {
   question: string;
   selectedOption: string;
@@ -27,6 +28,7 @@ function Result() {
   const [result, setResult] = useState<ResultData | null>(null);
   const testData = useSelector((state: RootState) => state.quizTestData.quiz);
   const router = useRouter();
+  const dispatch = useDispatch();
   useEffect(() => {
     const postResult = async () => {
       try {
@@ -39,12 +41,13 @@ function Result() {
         console.error(error);
       }
     };
+
     if (testData.questions.length > 0) {
       postResult();
     } else {
       router.push('/');
     }
-  }, [testData, router]);
+  }, [testData, router, dispatch]);
 
   const questionStyle = {
     backgroundColor: '#FFF9C4',

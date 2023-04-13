@@ -100,6 +100,7 @@ function QuizTaker() {
         const response = await axios.get(`/api/get-quiz-by-id-test?id=${id}`);
         const data = response.data as QuizType;
         dispatch(setQuizTestData(data));
+        dispatch(setCurrentQuestion(data.questions[0]));
       } catch (error) {
         console.error(error);
       }
@@ -110,11 +111,11 @@ function QuizTaker() {
   }, [id, dispatch]);
 
   // set the current question to the first question on mount
-  useEffect(() => {
-    if (quiz.questions.length > 0 && !currentQuestion) {
-      dispatch(setCurrentQuestion(quiz.questions[0]));
-    }
-  }, [dispatch, quiz, currentQuestion]);
+  // useEffect(() => {
+  //   if (quiz.questions.length > 0 && !currentQuestion) {
+  //     dispatch(setCurrentQuestion(quiz.questions[0]));
+  //   }
+  // }, [dispatch, quiz, currentQuestion]);
 
   useEffect(() => {
     return () => {

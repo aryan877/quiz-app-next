@@ -37,7 +37,6 @@ export default async function handler(
       const userSelectedOption = userAnswers[i].options.find(
         (option) => option.isAnswer
       );
-
       if (
         userSelectedOption?.id ===
         question.options.find((option) => option.isAnswer)?.id
