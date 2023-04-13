@@ -37,6 +37,7 @@
 // }, []);
 
 import { RootState } from '@/store/reducers';
+import { removePath, setPath } from '@/store/reducers/pathSlice';
 import {
   moveNext,
   movePrev,
@@ -69,7 +70,15 @@ function QuizTaker() {
   const currentQuestion = useSelector(
     (state: RootState) => state.quizTestData.currentQuestion
   );
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setPath('quiz_take'));
+    return () => {
+      dispatch(removePath());
+    };
+  }, [dispatch]);
 
   const questionIndex =
     quiz.questions.findIndex(
@@ -120,12 +129,15 @@ function QuizTaker() {
   return (
     <Box sx={{ mt: 4, width: '100%' }}>
       <Typography variant="h4" gutterBottom>
-        {quiz.title}
+        Quiz Title — {quiz.title}
       </Typography>
+
       {currentQuestion && (
         <Card sx={{ p: 4 }}>
           <CardContent>
-            <Typography variant="body1">{currentQuestion.prompt}</Typography>
+            <Typography variant="body1">
+              {questionIndex}. {currentQuestion.prompt}
+            </Typography>
             <Typography variant="body2" sx={{ mt: 2 }}>
               Question {questionIndex}/{quiz.questions.length}
             </Typography>

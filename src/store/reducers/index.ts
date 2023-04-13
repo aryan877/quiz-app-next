@@ -1,5 +1,7 @@
+import path from 'path';
 import { combineReducers } from 'redux';
 import notificationReducer from './notificationSlice';
+import pathReducer from './pathSlice';
 import quizCardReducer from './quizCardsSlice';
 import quizFormReducer from './quizFormSlice';
 import quizTestReducer from './quizTestSlice';
@@ -9,6 +11,7 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
   quizCards: quizCardReducer,
   quizTestData: quizTestReducer,
+  currentPath: pathReducer,
   // Add more slices here as needed
 });
 

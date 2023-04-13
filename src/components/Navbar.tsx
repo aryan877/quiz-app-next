@@ -22,6 +22,9 @@ const Navbar = () => {
   const path = router.pathname;
   const updatedQuiz = useSelector((state: RootState) => state.quizform.quiz);
   const dispatch = useDispatch();
+  const currentPath = useSelector(
+    (state: RootState) => state.currentPath.currentPath
+  );
 
   const saveQuiz = async () => {
     try {
@@ -52,6 +55,8 @@ const Navbar = () => {
     }
   };
 
+  const submitQuiz = () => {};
+
   return (
     <AppBar position="fixed" sx={{ zIndex: '99999' }}>
       <Toolbar>
@@ -74,7 +79,7 @@ const Navbar = () => {
             {/* <Typography variant="h6" component="div">
               Total 100 Points
             </Typography> */}
-            {path.startsWith('/editquiz/') && (
+            {currentPath === 'quiz_edit' && (
               <Button
                 variant="contained"
                 sx={{ ml: 2 }}
@@ -86,6 +91,22 @@ const Navbar = () => {
               >
                 <Typography variant="button" color={theme.palette.primary.main}>
                   Save Quiz
+                </Typography>
+              </Button>
+            )}
+
+            {currentPath === 'quiz_take' && (
+              <Button
+                variant="contained"
+                sx={{ ml: 2 }}
+                style={{
+                  backgroundColor: theme.palette.secondary.main,
+                  color: theme.palette.primary.main,
+                }}
+                onClick={() => submitQuiz()}
+              >
+                <Typography variant="button" color={theme.palette.primary.main}>
+                  Submit Quiz
                 </Typography>
               </Button>
             )}

@@ -19,6 +19,22 @@ export default async function handler(
   const quizId = req.query.id as string;
 
   try {
+    if (req.body.questions && req.body.questions.length === 0) {
+      res
+        .status(400)
+        .json({ message: 'Questions length should be greater than zero' });
+      return;
+    }
+    if (
+      req.body.questions.some(
+        (question: any) => !question.options || question.options.length === 0
+      )
+    ) {
+      res
+        .status(400)
+        .json({ message: 'All questions must have at least one option' });
+      return;
+    }
     const quizCollectionRef = collection(db, 'quizzes');
     const quizQuery = query(quizCollectionRef, where('id', '==', quizId));
     const quizDocs = await getDocs(quizQuery);

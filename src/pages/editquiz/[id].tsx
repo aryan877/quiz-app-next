@@ -2,6 +2,7 @@ import { default as EditableNumber } from '@/components/EditableNumber';
 import { default as EditableText } from '@/components/EditableText';
 import Question from '@/components/QuestionComponent';
 import { RootState } from '@/store/reducers';
+import { removePath, setPath } from '@/store/reducers/pathSlice';
 import {
   addQuestion,
   removeQuiz,
@@ -64,6 +65,12 @@ function EditQuiz() {
     dispatch(updateQuizDescription(description));
   }, [description, dispatch]);
 
+  useEffect(() => {
+    dispatch(setPath('quiz_edit'));
+    return () => {
+      dispatch(removePath());
+    };
+  }, [dispatch]);
   useEffect(() => {
     const fetchQuiz = async () => {
       try {

@@ -32,13 +32,13 @@ function StartQuiz() {
         const data = response.data as QuizType;
         setQuizData(data);
       } catch (error) {
-        console.error(error);
+        router.push('/404');
       }
     }
     if (id) {
       fetchQuiz();
     }
-  }, [id]);
+  }, [id, router]);
 
   if (!start) {
     return (
