@@ -58,7 +58,9 @@ const Navbar = () => {
     }
   };
 
-  const submitQuiz = () => {};
+  const submitQuiz = async () => {
+    router.push('/result');
+  };
 
   return (
     <AppBar position="fixed" sx={{ zIndex: '99999' }}>
