@@ -1,6 +1,7 @@
 import { RootState } from '@/store/reducers';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Box, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -8,6 +9,7 @@ function QuizTimer() {
   const minutes = useSelector(
     (state: RootState) => state.quizTestData.quiz.timelimit
   );
+  const router = useRouter();
 
   const [timeLeft, setTimeLeft] = useState(minutes * 60);
 
@@ -20,6 +22,12 @@ function QuizTimer() {
 
     return () => clearInterval(timer);
   }, [minutes]);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      router.push('/result');
+    }
+  }, [timeLeft, router]);
 
   const minutesLeft = Math.floor(timeLeft / 60);
   const secondsLeft = timeLeft % 60;
