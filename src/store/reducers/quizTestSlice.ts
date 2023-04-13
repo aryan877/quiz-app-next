@@ -33,13 +33,21 @@ const quizTestSlice = createSlice({
       const optionIndex = state.quiz.questions[questionIndex].options.findIndex(
         (o) => o.id === answerId
       );
-      state.quiz.questions[questionIndex].options.forEach(
-        (o) => (o.isAnswer = false)
-      );
 
-      state.quiz.questions[questionIndex].options[optionIndex].isAnswer = true;
+      // Alternate the boolean value
+      state.quiz.questions[questionIndex].options[optionIndex].isAnswer =
+        !state.quiz.questions[questionIndex].options[optionIndex].isAnswer;
+
+      // Reset all other options to false
+      state.quiz.questions[questionIndex].options.forEach((o) => {
+        if (o.id !== answerId) {
+          o.isAnswer = false;
+        }
+      });
+
       state.currentQuestion = state.quiz.questions[questionIndex];
     },
+
     setCurrentQuestion: (state, action) => {
       const { id } = action.payload;
       const questionIndex = state.quiz.questions.findIndex((q) => q.id === id);

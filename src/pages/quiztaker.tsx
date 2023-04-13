@@ -46,8 +46,10 @@ import {
 } from '@/store/reducers/quizTestSlice';
 import { QuestionType, QuizType } from '@/types/types';
 import {
+  Box,
   Button,
   Card,
+  CardActions,
   CardContent,
   FormControl,
   FormControlLabel,
@@ -105,38 +107,37 @@ function Quiztaker() {
   };
 
   return (
-    <div style={{ margin: '16px 0' }}>
+    <Box sx={{ mt: 4, width: '100%' }}>
       <Typography variant="h4" gutterBottom>
         {quiz.title}
       </Typography>
       {currentQuestion && (
-        <Card sx={{ maxWidth: 600 }}>
+        <Card sx={{ p: 4 }}>
           <CardContent>
             <Typography variant="body1">{currentQuestion.prompt}</Typography>
-            <FormControl component="fieldset">
-              <RadioGroup
-                name={`question-${currentQuestion.id}`}
-                onChange={(e) =>
-                  handleOptionChange(currentQuestion, e.target.value)
-                }
-              >
+            <FormControl component="fieldset" sx={{ mt: 2 }}>
+              <RadioGroup name={`question-${currentQuestion.id}`}>
                 {currentQuestion.options.map((option) => (
                   <FormControlLabel
                     key={option.id}
                     value={option.id}
-                    control={<Radio checked={option.isAnswer} />}
+                    control={<Radio />}
                     label={option.title}
+                    checked={option.isAnswer}
+                    onClick={() =>
+                      handleOptionChange(currentQuestion, option.id)
+                    } // Always call the custom handler on click
                   />
                 ))}
               </RadioGroup>
             </FormControl>
-
+          </CardContent>
+          <CardActions sx={{ justifyContent: 'flex-end' }}>
             <Button
               variant="contained"
               color="primary"
               // disabled={!currentQuestion.canMovePrev}
               onClick={handlePrevClick}
-              sx={{ mt: 2 }}
             >
               Previous
             </Button>
@@ -145,14 +146,14 @@ function Quiztaker() {
               color="primary"
               // disabled={!currentQuestion.canMoveNext}
               onClick={handleNextClick}
-              sx={{ mt: 2, ml: 2 }}
+              sx={{ ml: 2 }}
             >
               Next
             </Button>
-          </CardContent>
+          </CardActions>
         </Card>
       )}
-    </div>
+    </Box>
   );
 }
 
