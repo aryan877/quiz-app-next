@@ -8,6 +8,7 @@ import {
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../firebase/firebase';
 
+//post requeqst to delete the quiz with it's id
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<{ message: string }>

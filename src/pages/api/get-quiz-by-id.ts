@@ -7,6 +7,7 @@ import {
 } from 'firebase/firestore';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+//to get data to edit the quiz
 import { QuizType } from '@/types/types';
 import { db } from '../../../firebase/firebase';
 export default async function handler(

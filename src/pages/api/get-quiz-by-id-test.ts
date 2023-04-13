@@ -9,6 +9,7 @@ import {
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../firebase/firebase';
 
+//to dispay data after the quiz attempt starts ( including questions and options but excluding correct answers)
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<QuizType[] | {}>

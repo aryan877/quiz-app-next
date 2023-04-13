@@ -9,6 +9,7 @@ import {
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../firebase/firebase';
 
+//to dispay data before the quiz attempt starts ( exclude questions and options )
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Partial<QuizType> | { message: string }>

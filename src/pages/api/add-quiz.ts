@@ -10,6 +10,8 @@ import {
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../../firebase/firebase';
+
+//post request to create a new quiz with quiz title as body
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<QuizType[] | {}>

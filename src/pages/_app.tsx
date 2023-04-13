@@ -34,9 +34,9 @@ export default function MyApp(props: MyAppProps) {
       if (path.startsWith('/editquiz/')) {
         document.body.style.backgroundColor = '#f0f0f0';
       } else if (path === '/') {
-        document.body.style.backgroundColor = '#d3e7f5';
+        document.body.style.backgroundColor = '#E7DDD6';
       } else if (path.startsWith('/startquiz/')) {
-        document.body.style.backgroundColor = '#d3e7f5';
+        document.body.style.backgroundColor = '#f0f0f0';
       }
     };
     handleRouteChange(); // initial route
