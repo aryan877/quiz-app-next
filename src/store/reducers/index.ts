@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import notificationReducer from './notificationSlice';
 import quizCardReducer from './quizCardsSlice';
 import quizFormReducer from './quizFormSlice';
-import quizTestReducer from './quizTestReducer';
+import quizTestReducer from './quizTestSlice';
 
 const rootReducer = combineReducers({
   quizform: quizFormReducer,
