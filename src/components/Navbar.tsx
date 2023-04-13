@@ -72,7 +72,7 @@ const Navbar = () => {
         >
           <Grid item>
             <Link href="/">
-              <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+              <Box>
                 <Typography variant="h6" component="div">
                   QuizMaker
                 </Typography>
@@ -119,9 +119,7 @@ const Navbar = () => {
             {/* This grid item takes up the remaining space */}
           </Grid>
           <Grid item>
-            {currentPath === 'quiz_take' && (
-              <QuizTimer></QuizTimer>
-            )}
+            {currentPath === 'quiz_take' && <QuizTimer></QuizTimer>}
           </Grid>
         </Grid>
       </Toolbar>
