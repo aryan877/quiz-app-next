@@ -62,7 +62,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-function Quiztaker() {
+function QuizTaker() {
   const router = useRouter();
   const quiz = useSelector((state: RootState) => state.quizTestData.quiz);
   const id = router.query.id as string;
@@ -70,6 +70,17 @@ function Quiztaker() {
     (state: RootState) => state.quizTestData.currentQuestion
   );
   const dispatch = useDispatch();
+
+  const questionIndex =
+    quiz.questions.findIndex(
+      (question) => question.id === currentQuestion?.id
+    ) + 1;
+
+  const totalQuestionsAttempted = quiz.questions.reduce(
+    (count, question) =>
+      question.options.some((option) => option.isAnswer) ? count + 1 : count,
+    0
+  );
 
   //fetch quiz data
   useEffect(() => {
@@ -115,6 +126,9 @@ function Quiztaker() {
         <Card sx={{ p: 4 }}>
           <CardContent>
             <Typography variant="body1">{currentQuestion.prompt}</Typography>
+            <Typography variant="body2" sx={{ mt: 2 }}>
+              Question {questionIndex}/{quiz.questions.length}
+            </Typography>
             <FormControl component="fieldset" sx={{ mt: 2 }}>
               <RadioGroup name={`question-${currentQuestion.id}`}>
                 {currentQuestion.options.map((option) => (
@@ -133,6 +147,10 @@ function Quiztaker() {
             </FormControl>
           </CardContent>
           <CardActions sx={{ justifyContent: 'flex-end' }}>
+            <Typography variant="body2" sx={{ mr: 2 }}>
+              {totalQuestionsAttempted} out of {quiz.questions.length} questions
+              attempted
+            </Typography>
             <Button
               variant="contained"
               color="primary"
@@ -157,4 +175,4 @@ function Quiztaker() {
   );
 }
 
-export default Quiztaker;
+export default QuizTaker;

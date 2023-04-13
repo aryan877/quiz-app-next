@@ -1,3 +1,4 @@
+import { default as QuizTaker } from '@/components/QuizTaker';
 import { QuizType } from '@/types/types';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Box, Button, Card, CardContent, Typography } from '@mui/material';
@@ -5,7 +6,6 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import QuizTaker from '../quiztaker';
 
 function StartQuiz() {
   const router = useRouter();
@@ -50,7 +50,7 @@ function StartQuiz() {
         }}
       >
         <Typography
-          variant="h5"
+          variant="h4"
           textAlign="center"
           fontWeight="bold"
           gutterBottom
@@ -63,26 +63,28 @@ function StartQuiz() {
               <span style={{ fontWeight: 'bold' }}>Quiz Title:</span>{' '}
               {quizData.title}
             </Typography>
-            <Typography variant="h5" sx={{ mt: 2 }} gutterBottom>
+            <Typography variant="h6" sx={{ mt: 2 }} gutterBottom>
               <span style={{ fontWeight: 'bold' }}>Total Points:</span>{' '}
               {quizData.points}
             </Typography>
-            <Typography variant="body2" sx={{ mt: 2 }}>
+            <Typography variant="body1" sx={{ mt: 2 }}>
               <span style={{ fontWeight: 'bold' }}>Quiz Description: </span>{' '}
               {quizData.description}
             </Typography>
 
             <Typography
-              variant="body2"
+              variant="body1"
               sx={{ mt: 2, display: 'flex', alignItems: 'center' }}
             >
               <span style={{ fontWeight: 'bold' }}>Time Limit:&nbsp;</span>
               {quizData.timelimit} minutes <AccessTimeIcon sx={{ ml: 1 }} />
             </Typography>
 
-            <Typography variant="body2" component="p" sx={{ mt: 2 }}>
+            <Typography variant="body1" component="p" sx={{ mt: 2 }}>
               <span style={{ fontWeight: 'bold' }}>Instructions:</span>{' '}
-              <span style={{ color: 'red' }}>
+              <span
+                style={{ color: 'red', fontSize: '1.1rem', fontWeight: 'bold' }}
+              >
                 Once you press Start Quiz, the quiz will begin. You will have{' '}
                 {quizData.timelimit} minutes to complete the quiz. Press Submit
                 to end the test and see your results. The quiz will end
@@ -98,6 +100,7 @@ function StartQuiz() {
             size="large"
             color="primary"
             onClick={handleStartQuiz}
+            sx={{ fontSize: '1.1rem', fontWeight: 'bold' }}
           >
             Start Quiz
           </Button>
