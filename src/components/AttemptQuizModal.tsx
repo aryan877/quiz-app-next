@@ -84,8 +84,8 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
           width: 400,
           bgcolor: 'background.paper',
           borderRadius: '4px',
-          p: 2,
-          pb: 4,
+          p: 4,
+          py: 2,
           zIndex: 9999, // Or any other high value
           transition: 'height 0.5s ease-in-out', // Add transition property to height
         }}
@@ -120,11 +120,11 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
               color="red"
               fontWeight="bold"
             >
-              Copy to share link{' '}
+              open link{' '}
               <Box component="span" sx={{ color: theme.palette.primary.dark }}>
-                OR
+                or
               </Box>{' '}
-              open test from link below
+              copy link to share{' '}
             </Typography>
             <TextField
               sx={{ mt: 1, mb: 2 }}
@@ -140,9 +140,24 @@ const AttemptQuizModal: FC<AttemptQuizModalProps> = ({
                 ),
               }}
             />
-            <Button onClick={handleStartTest}>Open Link</Button>
-            <Divider></Divider>
-            <Box sx={{ px: 3, mt: 2 }}>
+            <Button
+              sx={{
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.secondary.main,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.secondary.main,
+                },
+              }}
+              onClick={handleStartTest}
+            >
+              Open Link
+            </Button>
+
+            <Box sx={{ mt: 2 }}>
               <Typography variant="body1">
                 <span style={{ fontWeight: 'bold' }}>quiz title:</span>{' '}
                 {
