@@ -32,8 +32,8 @@ export default async function handler(
     const quizData = quizDocs.docs[0].data() as QuizType;
     const userAnswers = quiz.questions;
 
-    let score = 0;
-    let maxscore = 0;
+    let score: number = 0;
+    let maxscore: number = 0;
     const results: ResultType[] = [];
 
     for (let i = 0; i < quizData.questions.length; i++) {
@@ -43,9 +43,9 @@ export default async function handler(
         (option) => option.isAnswer
       );
       if (userSelectedOption?.id === correctOption?.id) {
-        score += question.points;
+        score += Number(question.points);
       }
-      maxscore += question.points;
+      maxscore += Number(question.points);
       results.push({
         question: `Question ${i + 1}`,
         selectedOption: userSelectedOption?.title,
