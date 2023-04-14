@@ -73,11 +73,11 @@ function QuizTaker() {
   }, [id, dispatch]);
 
   // set the current question to the first question on mount
-  useEffect(() => {
-    if (quiz.questions.length > 0 && !currentQuestion) {
-      dispatch(setCurrentQuestion(quiz.questions[0]));
-    }
-  }, [dispatch, quiz, currentQuestion]);
+  // useEffect(() => {
+  //   if (quiz.questions.length > 0 && !currentQuestion) {
+  //     dispatch(setCurrentQuestion(quiz.questions[0]));
+  //   }
+  // }, [dispatch, quiz, currentQuestion]);
 
   //stop client side re-direct
   useEffect(() => {
