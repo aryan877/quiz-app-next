@@ -35,9 +35,6 @@ function EditQuiz() {
   const router = useRouter();
   const dispatch = useDispatch();
   const quiz = useSelector((state: RootState) => state.quizform.quiz);
-
-  const [quizTitle, setQuizTitle] = React.useState(quiz.title);
-  const [description, setDescription] = React.useState(quiz.description);
   const [timeLimit, setTimeLimit] = useState<number>(quiz.timelimit);
   // to autofocus the last element
   const [lastAddedIndex, setLastAddedIndex] = useState(-1);
@@ -54,16 +51,8 @@ function EditQuiz() {
   };
 
   useEffect(() => {
-    dispatch(updateQuizTitle(quizTitle));
-  }, [quizTitle, dispatch]);
-
-  useEffect(() => {
     dispatch(updateQuizTimeLimit(timeLimit));
   }, [timeLimit, dispatch]);
-
-  useEffect(() => {
-    dispatch(updateQuizDescription(description));
-  }, [description, dispatch]);
 
   useEffect(() => {
     dispatch(setPath('quiz_edit'));
@@ -103,17 +92,15 @@ function EditQuiz() {
       <Card sx={{ backgroundColor: '#fff', px: 2, py: 1, mt: 1, mb: 1 }}>
         <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <EditableText
-            textState={quiz.title}
-            setTextState={setQuizTitle}
+            text={quiz.title}
+            updateAction={updateQuizTitle}
             fontSize={'32px'}
             bold
-            defaultText={quiz.title}
           />
           <EditableText
-            textState={quiz.description}
-            setTextState={setDescription}
+            text={quiz.description}
+            updateAction={updateQuizDescription}
             fontSize={'16px'}
-            defaultText={quiz.description}
           />
           <Box sx={{ mt: 2 }}>
             <EditableNumber

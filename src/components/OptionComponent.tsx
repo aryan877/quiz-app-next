@@ -19,7 +19,6 @@ function Option({
   option: OptionType;
   questionId: string;
 }) {
-  const [optionTitle, setOptionTitle] = useState(option.title);
   const [checked, setChecked] = useState(option.isAnswer);
   const dispatch = useDispatch();
 
@@ -57,16 +56,6 @@ function Option({
     );
   }, [checked, dispatch, questionId, option.id]);
 
-  useEffect(() => {
-    dispatch(
-      updateOptionTitle({
-        questionId: questionId,
-        optionId: option.id,
-        title: optionTitle,
-      })
-    );
-  }, [optionTitle, dispatch, option.id, questionId]);
-
   return (
     <Grid
       container
@@ -80,9 +69,10 @@ function Option({
       <Grid item sx={{ flexGrow: 1 }}>
         <EditableText
           key={option.id}
-          textState={option.title}
-          setTextState={setOptionTitle}
-          defaultText={option.title}
+          text={option.title}
+          updateAction={updateOptionTitle}
+          questionId={questionId}
+          optionId={option.id}
           fontSize={'16px'}
         />
       </Grid>

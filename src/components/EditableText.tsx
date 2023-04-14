@@ -1,37 +1,52 @@
-import TextField from '@mui/material/TextField';
-import { useState } from 'react';
+import { TextField } from '@mui/material';
+import { useDispatch } from 'react-redux';
+
 interface EditableTextProps {
-  defaultText: string;
-  setTextState: React.Dispatch<React.SetStateAction<string>>;
-  textState: string;
+  text: string;
   fontSize: string;
   bold?: boolean;
   autoFocus?: boolean;
+  updateAction: (...args: any[]) => any;
+  questionId?: string;
+  optionId?: string;
 }
 
 function EditableText({
-  defaultText,
-  setTextState,
-  textState,
+  text,
   fontSize,
   bold,
   autoFocus = false,
+  updateAction,
+  questionId,
+  optionId,
 }: EditableTextProps) {
-  const [defaultVal, setDefaultVal] = useState(defaultText);
+  const dispatch = useDispatch();
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTextState(e.target.value);
+    const newText = e.target.value;
+    if (!questionId && !optionId) {
+      dispatch(updateAction(newText));
+    } else if (!optionId && questionId) {
+      dispatch(updateAction({ questionId: questionId, prompt: newText }));
+    } else if (questionId && optionId) {
+      dispatch(
+        updateAction({
+          questionId: questionId,
+          optionId: optionId,
+          title: newText,
+        })
+      );
+    }
   };
 
   const handleTextBlur = () => {
-    if (textState.trim() === '') {
-      setTextState(defaultVal);
+    if (text.trim() === '') {
     }
   };
 
   return (
     <TextField
-      value={textState}
+      value={text}
       onChange={handleTextChange}
       onBlur={handleTextBlur}
       autoFocus={autoFocus}

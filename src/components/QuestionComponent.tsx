@@ -33,7 +33,6 @@ interface Props {
 }
 
 function Question({ question, index, autofocus }: Props) {
-  const [questionPrompt, setquestionPrompt] = useState(question.prompt);
   const [questionPoints, setQuestionPoints] = useState<number>(question.points);
   const dispatch = useDispatch();
   const cardRef = useRef<HTMLDivElement>(null);
@@ -76,12 +75,6 @@ function Question({ question, index, autofocus }: Props) {
     );
   }, [questionPoints, dispatch, question.id]);
 
-  useEffect(() => {
-    dispatch(
-      updateQuestionPrompt({ questionId: question.id, prompt: questionPrompt })
-    );
-  }, [questionPrompt, question.id, dispatch]);
-
   return (
     <Card
       ref={autofocus ? cardRef : null}
@@ -102,9 +95,9 @@ function Question({ question, index, autofocus }: Props) {
             {`${index}.`}
           </Typography>
           <EditableText
-            textState={question.prompt}
-            setTextState={setquestionPrompt}
-            defaultText={questionPrompt}
+            text={question.prompt}
+            questionId={question.id}
+            updateAction={updateQuestionPrompt}
             fontSize={'16px'}
             autoFocus={autofocus}
           />
