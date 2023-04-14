@@ -1,41 +1,3 @@
-// //stop client side re-direct
-// useEffect(() => {
-//   const handleRouteChange = (
-//     url: string,
-//     { shallow }: { shallow: boolean }
-//   ) => {
-//     const confirmationMessage =
-//       'Are you sure you want to leave this page? Your quiz data will be lost.';
-//     if (!shallow && !confirm(confirmationMessage)) {
-//       router.events.emit('routeChangeError');
-//       throw 'routeChange aborted.';
-//     }
-//   };
-
-//   router.events.on('routeChangeStart', handleRouteChange);
-
-//   return () => {
-//     router.events.off('routeChangeStart', handleRouteChange);
-//   };
-// }, [router]);
-
-// //stop browser re-direct
-// useEffect(() => {
-//   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-//     event.preventDefault();
-//     const confirmationMessage =
-//       'Are you sure you want to leave this page? Your quiz data will be lost.';
-//     event.returnValue = confirmationMessage;
-//     return confirmationMessage;
-//   };
-
-//   window.addEventListener('beforeunload', handleBeforeUnload);
-
-//   return () => {
-//     window.removeEventListener('beforeunload', handleBeforeUnload);
-//   };
-// }, []);
-
 import { RootState } from '@/store/reducers';
 import { removePath, setPath } from '@/store/reducers/pathSlice';
 import {
@@ -108,20 +70,58 @@ function QuizTaker() {
     if (id) {
       fetchQuiz();
     }
-  }, [id, dispatch]);
 
-  // set the current question to the first question on mount
-  // useEffect(() => {
-  //   if (quiz.questions.length > 0 && !currentQuestion) {
-  //     dispatch(setCurrentQuestion(quiz.questions[0]));
-  //   }
-  // }, [dispatch, quiz, currentQuestion]);
-
-  useEffect(() => {
     return () => {
       dispatch(setCurrentQuestion(null));
     };
-  }, [dispatch]);
+  }, [id, dispatch]);
+
+  // set the current question to the first question on mount
+  useEffect(() => {
+    if (quiz.questions.length > 0 && !currentQuestion) {
+      dispatch(setCurrentQuestion(quiz.questions[0]));
+    }
+  }, [dispatch, quiz, currentQuestion]);
+
+  //stop client side re-direct
+  useEffect(() => {
+    const handleRouteChange = (
+      url: string,
+      { shallow }: { shallow: boolean }
+    ) => {
+      const confirmationMessage =
+        'Are you sure you want to leave this page? Your quiz data will be lost.';
+      if (!shallow && !confirm(confirmationMessage)) {
+        router.events.emit('routeChangeError');
+        throw 'routeChange aborted.';
+      }
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [router]);
+
+  //stop browser re-direct
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      const confirmationMessage =
+        'Are you sure you want to leave this page? Your quiz data will be lost.';
+      event.returnValue = confirmationMessage;
+      return confirmationMessage;
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  // useEffect(() => {}, [dispatch]);
 
   const handleOptionChange = (question: QuestionType, optionId: string) => {
     dispatch(selectAnswer({ questionId: question.id, answerId: optionId }));
