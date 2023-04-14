@@ -24,7 +24,7 @@ export default async function handler(
       {
         id: uuidv4(),
         prompt: 'New Question',
-        points: 1,
+        points: Number(1),
         options: [{ id: uuidv4(), title: 'Option', isAnswer: false }],
       },
     ],
