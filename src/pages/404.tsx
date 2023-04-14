@@ -1,5 +1,6 @@
 import { Button, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import Link from 'next/link';
 
 const Custom404 = () => {
   return (
@@ -10,9 +11,11 @@ const Custom404 = () => {
         We are sorry, the page you requested could not be found. Please check
         the URL or go back to the homepage.
       </ErrorDescription>
-      <Button href="/" variant="contained" color="primary">
-        Go back to homepage
-      </Button>
+      <Link href="/">
+        <Button variant="contained" color="primary">
+          Go back to homepage
+        </Button>
+      </Link>
     </Container>
   );
 };

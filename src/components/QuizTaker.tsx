@@ -70,10 +70,6 @@ function QuizTaker() {
     if (id) {
       fetchQuiz();
     }
-
-    return () => {
-      dispatch(setCurrentQuestion(null));
-    };
   }, [id, dispatch]);
 
   // set the current question to the first question on mount
@@ -91,7 +87,11 @@ function QuizTaker() {
     ) => {
       const confirmationMessage =
         'Are you sure you want to leave this page? Your quiz data will be lost.';
-      if (!shallow && !confirm(confirmationMessage)) {
+      if (
+        !shallow &&
+        !url.includes('/result') &&
+        !confirm(confirmationMessage)
+      ) {
         router.events.emit('routeChangeError');
         throw 'routeChange aborted.';
       }
@@ -121,7 +121,11 @@ function QuizTaker() {
     };
   }, []);
 
-  // useEffect(() => {}, [dispatch]);
+  useEffect(() => {
+    return () => {
+      dispatch(setCurrentQuestion(null));
+    };
+  }, [dispatch]);
 
   const handleOptionChange = (question: QuestionType, optionId: string) => {
     dispatch(selectAnswer({ questionId: question.id, answerId: optionId }));
