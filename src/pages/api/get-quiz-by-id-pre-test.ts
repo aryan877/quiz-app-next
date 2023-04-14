@@ -29,8 +29,8 @@ export default async function handler(
     const quizData = quizDocs.docs[0].data() as QuizType;
 
     // calculate total points
-    const totalPoints = quizData.questions.reduce(
-      (total, question) => total + question.points,
+    const totalPoints: number = quizData.questions.reduce(
+      (total, question) => total + Number(question.points),
       0
     );
 

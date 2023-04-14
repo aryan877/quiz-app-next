@@ -19,11 +19,16 @@ function Option({
   option: OptionType;
   questionId: string;
 }) {
-  const [checked, setChecked] = useState(option.isAnswer);
   const dispatch = useDispatch();
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+    dispatch(
+      updateOptionIsAnswer({
+        questionId: questionId,
+        optionId: option.id,
+        isAnswer: event.target.checked,
+      })
+    );
   };
 
   const options = useSelector((state: RootState) => {
@@ -46,16 +51,6 @@ function Option({
     }
   };
 
-  useEffect(() => {
-    dispatch(
-      updateOptionIsAnswer({
-        questionId: questionId,
-        optionId: option.id,
-        isAnswer: checked,
-      })
-    );
-  }, [checked, dispatch, questionId, option.id]);
-
   return (
     <Grid
       container
@@ -69,11 +64,18 @@ function Option({
       <Grid item sx={{ flexGrow: 1 }}>
         <EditableText
           key={option.id}
-          text={option.title}
-          updateAction={updateOptionTitle}
-          questionId={questionId}
-          optionId={option.id}
           fontSize={'16px'}
+          text={option.title}
+          defaultValue="Option"
+          onChange={(text: string) => {
+            dispatch(
+              updateOptionTitle({
+                questionId: questionId,
+                optionId: option.id,
+                title: text,
+              })
+            );
+          }}
         />
       </Grid>
       <Grid item>

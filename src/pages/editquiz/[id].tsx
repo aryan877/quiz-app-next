@@ -93,21 +93,30 @@ function EditQuiz() {
         <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <EditableText
             text={quiz.title}
-            updateAction={updateQuizTitle}
+            onChange={(text: string) => {
+              dispatch(updateQuizTitle(text));
+            }}
+            defaultValue={quiz.title}
             fontSize={'32px'}
             bold
           />
           <EditableText
             text={quiz.description}
-            updateAction={updateQuizDescription}
+            onChange={(text: string) => {
+              dispatch(updateQuizDescription(text));
+            }}
+            defaultValue={quiz.description}
             fontSize={'16px'}
           />
           <Box sx={{ mt: 2 }}>
             <EditableNumber
-              setNumberState={setTimeLimit}
-              numberState={quiz.timelimit}
+              defaultValue={10}
+              number={quiz.timelimit}
+              onChange={(value: number) => {
+                dispatch(updateQuizTimeLimit(value));
+              }}
               fontSize={'16px'}
-              label={'Time Limit in Minutes'}
+              label={'Time Limit (minutes)'}
             />
           </Box>
           <Typography

@@ -1,42 +1,36 @@
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-interface EditableTextProps {
-  setNumberState: React.Dispatch<React.SetStateAction<number>>;
-  numberState: number;
+interface EditableNumberProps {
+  number: number;
   fontSize: string;
   label: string;
   bold?: boolean;
+  onChange: (...args: any[]) => any;
+  defaultValue: number;
 }
 
-function EditableText({
-  setNumberState,
-  numberState,
+function EditableNumber({
+  number,
   label,
   fontSize,
   bold,
-}: EditableTextProps) {
+  onChange,
+  defaultValue,
+}: EditableNumberProps) {
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isNaN(Number(e.target.value))) {
-      setNumberState(1);
-    } else {
-      setNumberState(Number(e.target.value));
-    }
-  };
-
-  const handleNumberBlur = () => {
-    if (numberState === Number(0)) {
-      setNumberState(1);
-    }
+    const newNumber = Number(e.target.value);
+    onChange(newNumber || defaultValue);
   };
 
   return (
     <TextField
-      value={numberState}
+      value={number}
       label={label}
       type="number"
+      defaultValue={defaultValue}
       onChange={handleNumberChange}
-      onBlur={handleNumberBlur}
       InputProps={{ inputProps: { min: 1, required: true } }}
       sx={{
         border: 'none',
@@ -48,4 +42,4 @@ function EditableText({
   );
 }
 
-export default EditableText;
+export default EditableNumber;

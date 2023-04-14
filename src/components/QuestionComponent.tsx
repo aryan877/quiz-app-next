@@ -18,11 +18,10 @@ import {
   CardContent,
   Divider,
   IconButton,
-  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -33,7 +32,6 @@ interface Props {
 }
 
 function Question({ question, index, autofocus }: Props) {
-  const [questionPoints, setQuestionPoints] = useState<number>(question.points);
   const dispatch = useDispatch();
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -69,12 +67,6 @@ function Question({ question, index, autofocus }: Props) {
     dispatch(addOption({ questionId: question.id, option: newOption }));
   };
 
-  useEffect(() => {
-    dispatch(
-      updateQuestionPoints({ questionId: question.id, points: questionPoints })
-    );
-  }, [questionPoints, dispatch, question.id]);
-
   return (
     <Card
       ref={autofocus ? cardRef : null}
@@ -95,9 +87,16 @@ function Question({ question, index, autofocus }: Props) {
             {`${index}.`}
           </Typography>
           <EditableText
+            defaultValue="New Question"
             text={question.prompt}
-            questionId={question.id}
-            updateAction={updateQuestionPrompt}
+            onChange={(text: string) =>
+              dispatch(
+                updateQuestionPrompt({
+                  questionId: question.id,
+                  prompt: text,
+                })
+              )
+            }
             fontSize={'16px'}
             autoFocus={autofocus}
           />
@@ -125,8 +124,16 @@ function Question({ question, index, autofocus }: Props) {
             }}
           >
             <EditableNumber
-              setNumberState={setQuestionPoints}
-              numberState={question.points}
+              onChange={(value: number) => {
+                dispatch(
+                  updateQuestionPoints({
+                    questionId: question.id,
+                    points: value,
+                  })
+                );
+              }}
+              defaultValue={1}
+              number={question.points}
               fontSize={'24px'}
               label={'Points'}
             />
