@@ -16,10 +16,12 @@ type ResultItem = {
   question: string;
   selectedOption: string;
   correctOption: string;
+  points: number;
 };
 
 type ResultData = {
   score: number;
+  maxscore: number;
   totalQuestions: number;
   results: ResultItem[];
 };
@@ -36,6 +38,7 @@ function Result() {
           '/api/get-result',
           testData
         );
+        console.log(data);
         setResult(data);
       } catch (error) {
         console.error(error);
@@ -71,14 +74,14 @@ function Result() {
   };
 
   return (
-    <Box mt={4}>
+    <Box mt={4} sx={{ width: '80%' }}>
       <Typography variant="h4" align="center" gutterBottom>
         Quiz Report
       </Typography>
       {result ? (
         <>
           <Typography variant="h5" align="center" gutterBottom>
-            You scored {result.score} out of {result.results.length}
+            You scored {result.score} out of {result.maxscore}
           </Typography>
           <Box>
             {result.results.map((resultItem) => (
@@ -94,10 +97,26 @@ function Result() {
                       : wrongAnswerStyle
                   }
                 >
-                  <strong>Your answer:</strong> {resultItem.selectedOption}
+                  <strong>Your answer:</strong>{' '}
+                  {resultItem.selectedOption ? resultItem.selectedOption : 'NA'}
                 </Typography>
                 <Typography variant="subtitle1" sx={correctAnswerStyle}>
                   <strong>Correct answer:</strong> {resultItem.correctOption}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  sx={
+                    resultItem.selectedOption === resultItem.correctOption
+                      ? correctAnswerStyle
+                      : wrongAnswerStyle
+                  }
+                >
+                  <strong>
+                    {resultItem.selectedOption === resultItem.correctOption
+                      ? 'Points Scored:'
+                      : 'Points Lost:'}
+                  </strong>{' '}
+                  {resultItem.points}
                 </Typography>
               </Card>
             ))}
