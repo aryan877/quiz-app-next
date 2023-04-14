@@ -81,40 +81,40 @@ function StartQuiz() {
                   p: 2,
                 }}
               >
-                <Typography variant="body1">
+                <Typography variant="body1" textAlign="left">
                   <Box fontWeight="bold" component="span">
                     Total Points:
                   </Box>{' '}
                   {quizData.points}
                 </Typography>
-                <Typography variant="body1">
+                <Typography variant="body1" textAlign="left">
                   <Box fontWeight="bold" component="span">
                     Quiz Description:
                   </Box>{' '}
                   {quizData.description}
                 </Typography>
-                <Typography variant="body1">
+                <Typography variant="body1" textAlign="left">
                   <Box fontWeight="bold" component="span">
                     Time Limit:
                   </Box>{' '}
                   {quizData.timelimit} minutes
                 </Typography>
-                <Typography variant="body1" sx={{ mt: 2 }}>
+                <Typography variant="body1" sx={{ mt: 2 }} textAlign="left">
                   <Box fontWeight="bold" component="span">
                     Instructions:
                   </Box>
                 </Typography>
-                <Typography variant="body1" color="red">
+                <Typography variant="body1" color="red" textAlign="left">
                   - Once you press Start Quiz, the quiz will begin.
                 </Typography>
-                <Typography variant="body1" color="red">
+                <Typography variant="body1" color="red" textAlign="left">
                   - You will have {quizData.timelimit} minutes to complete the
                   quiz.
                 </Typography>
-                <Typography variant="body1" color="red">
+                <Typography variant="body1" color="red" textAlign="left">
                   - Press Submit to end the test and see your results.
                 </Typography>
-                <Typography variant="body1" color="red">
+                <Typography variant="body1" color="red" textAlign="left">
                   - The quiz will end automatically when the time is up.
                 </Typography>
                 <Button

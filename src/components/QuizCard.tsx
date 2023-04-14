@@ -134,8 +134,8 @@ function QuizCard({ quiz, index }: { quiz: Partial<QuizType>; index: number }) {
         >
           <Typography
             mr={3}
-            align="left"
-            variant="h6"
+            textAlign="left"
+            variant="body1"
             color={theme.palette.secondary.main}
           >
             #{index + 1} {quiz.title}
