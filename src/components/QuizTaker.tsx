@@ -43,6 +43,7 @@ function QuizTaker() {
     dispatch(setPath('quiz_take'));
     return () => {
       dispatch(removePath());
+      dispatch(setCurrentQuestion(null));
     };
   }, [dispatch]);
 

@@ -1,3 +1,4 @@
+import useFetchQuizResult from '@/hooks/useFetchQuizResult';
 import { RootState } from '@/store/reducers';
 import { setQuizTestData } from '@/store/reducers/quizTestSlice';
 import {
@@ -27,31 +28,7 @@ type ResultData = {
 };
 
 function Result() {
-  const [result, setResult] = useState<ResultData | null>(null);
-  const testData = useSelector((state: RootState) => state.quizTestData.quiz);
-  const router = useRouter();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const postResult = async () => {
-      try {
-        const { data } = await axios.post<ResultData>(
-          '/api/get-result',
-          testData
-        );
-        console.log(data);
-        setResult(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    if (testData.questions.length > 0) {
-      postResult();
-    } else {
-      router.push('/');
-    }
-  }, [testData, router, dispatch]);
-
+  const { result, loading, error } = useFetchQuizResult();
   const questionStyle = {
     backgroundColor: '#FFF9C4',
     p: 2,
