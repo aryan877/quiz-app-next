@@ -2,6 +2,7 @@ import AttemptQuizModal from '@/components/AttemptQuizModal';
 import CreateQuizModal from '@/components/CreateQuizModal';
 import ModalWrapper from '@/components/ModalWrapper';
 import QuizCard from '@/components/QuizCard';
+import useFetchQuizCards from '@/hooks/fetchQuizCards';
 import { RootState } from '@/store/reducers';
 import { addNotification } from '@/store/reducers/notificationSlice';
 import {
@@ -26,39 +27,12 @@ const Index = () => {
   //states
   const [openCreateQuizModal, setOpenCreateQuizModal] = useState(false);
   const [openAttemptQuizModal, setOpenAttemptQuizModal] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<any>(null);
   //states
   //hooks
   const theme = useTheme();
-  const dispatch = useDispatch();
   const quizzes = useSelector((state: RootState) => state.quizCards.quizzes);
-  useEffect(() => {
-    const fetchQuizzes = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await axios.get('/api/get-all-quizzes');
-        dispatch(addQuizCardsData(response.data));
-      } catch (error) {
-        setError(error);
-        dispatch(
-          addNotification({
-            type: 'error',
-            message: 'An error occurred while fetching quizzes',
-          })
-        );
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchQuizzes();
 
-    return () => {
-      dispatch(removeQuizCardsData());
-    };
-  }, [dispatch]);
+  const isLoading = useFetchQuizCards();
 
   //hooks
   //render
@@ -124,7 +98,7 @@ const Index = () => {
         >
           All Quizzes ({quizzes.length})
         </Typography>
-        {loading ? (
+        {isLoading ? (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <CircularProgress color="primary" />
           </div>

@@ -1,4 +1,4 @@
-import { useFetchQuiz } from '@/hooks/useFetchQuiz';
+import { useFetchTestQuiz } from '@/hooks/useFetchTestQuiz';
 import { usePreventBrowserRedirect } from '@/hooks/usePreventBrowserRedirect';
 import { useStopClientSideRedirect } from '@/hooks/useStopClientSideRedirect';
 import { RootState } from '@/store/reducers';
@@ -60,7 +60,7 @@ function QuizTaker() {
   const points = quiz.questions[questionIndex - 1]?.points || 1;
 
   //fetch quiz data
-  const isLoading = useFetchQuiz(id);
+  const isLoading = useFetchTestQuiz(id);
 
   //stop client side re-direct
   useStopClientSideRedirect();

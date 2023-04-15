@@ -1,3 +1,4 @@
+import { addNotification } from '@/store/reducers/notificationSlice';
 import {
   setCurrentQuestion,
   setQuizTestData,
@@ -7,7 +8,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-export const useFetchQuiz = (id: string) => {
+export const useFetchTestQuiz = (id: string) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,6 +22,12 @@ export const useFetchQuiz = (id: string) => {
         dispatch(setCurrentQuestion(data.questions[0]));
         setIsLoading(false);
       } catch (error) {
+        dispatch(
+          addNotification({
+            type: 'error',
+            message: 'An error occurred while fetching quizzes',
+          })
+        );
         setIsLoading(false);
         console.error(error);
       }
