@@ -1,3 +1,6 @@
+import { useFetchQuiz } from '@/hooks/useFetchQuiz';
+import { usePreventBrowserRedirect } from '@/hooks/usePreventBrowserRedirect';
+import { useStopClientSideRedirect } from '@/hooks/useStopClientSideRedirect';
 import { RootState } from '@/store/reducers';
 import { removePath, setPath } from '@/store/reducers/pathSlice';
 import {
@@ -14,6 +17,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   Radio,
@@ -56,76 +60,12 @@ function QuizTaker() {
   const points = quiz.questions[questionIndex - 1]?.points || 1;
 
   //fetch quiz data
-  useEffect(() => {
-    async function fetchQuiz() {
-      try {
-        const response = await axios.get(`/api/get-quiz-by-id-test?id=${id}`);
-        const data = response.data as QuizType;
-        dispatch(setQuizTestData(data));
-        dispatch(setCurrentQuestion(data.questions[0]));
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    if (id) {
-      fetchQuiz();
-    }
-  }, [id, dispatch]);
-
-  // set the current question to the first question on mount
-  // useEffect(() => {
-  //   if (quiz.questions.length > 0 && !currentQuestion) {
-  //     dispatch(setCurrentQuestion(quiz.questions[0]));
-  //   }
-  // }, [dispatch, quiz, currentQuestion]);
+  const isLoading = useFetchQuiz(id);
 
   //stop client side re-direct
-  useEffect(() => {
-    const handleRouteChange = (
-      url: string,
-      { shallow }: { shallow: boolean }
-    ) => {
-      const confirmationMessage =
-        'Are you sure you want to leave this page? Your quiz data will be lost.';
-      if (
-        !shallow &&
-        !url.includes('/result') &&
-        !confirm(confirmationMessage)
-      ) {
-        router.events.emit('routeChangeError');
-        throw 'routeChange aborted.';
-      }
-    };
-
-    router.events.on('routeChangeStart', handleRouteChange);
-
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
-    };
-  }, [router]);
-
+  useStopClientSideRedirect();
   //stop browser re-direct
-  useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      const confirmationMessage =
-        'Are you sure you want to leave this page? Your quiz data will be lost.';
-      event.returnValue = confirmationMessage;
-      return confirmationMessage;
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      dispatch(setCurrentQuestion(null));
-    };
-  }, [dispatch]);
+  usePreventBrowserRedirect();
 
   const handleOptionChange = (question: QuestionType, optionId: string) => {
     dispatch(selectAnswer({ questionId: question.id, answerId: optionId }));
@@ -138,6 +78,14 @@ function QuizTaker() {
   const handleNextClick = () => {
     dispatch(moveNext());
   };
+
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <CircularProgress color="primary" />
+      </div>
+    );
+  }
 
   return (
     <Box sx={{ mt: 4, width: '100%' }}>
