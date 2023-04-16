@@ -62,7 +62,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="fixed" sx={{ zIndex: '99999' }}>
+    <AppBar position="fixed" sx={{ zIndex: '999' }}>
       <Toolbar>
         <Grid
           container

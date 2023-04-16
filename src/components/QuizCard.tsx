@@ -79,7 +79,7 @@ function QuizCard({ quiz, index }: { quiz: Partial<QuizType>; index: number }) {
           position: 'absolute',
           right: '0',
           top: '0',
-          zIndex: '999',
+          zIndex: '99',
         }}
       >
         <IconButton sx={{ color: 'white' }} onClick={handleMenuOpen}>
