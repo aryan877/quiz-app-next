@@ -82,9 +82,9 @@ function QuizTaker() {
 
   if (isLoading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <Box mt={4} style={{ display: 'flex', justifyContent: 'center' }}>
         <CircularProgress color="primary" />
-      </div>
+      </Box>
     );
   }
 
